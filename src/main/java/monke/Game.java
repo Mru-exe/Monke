@@ -1,0 +1,19 @@
+package monke;
+import monke.controllers.LevelLoader;
+
+import monke.models.Level;
+import monke.models.entities.Player;
+
+public class Game {
+    public static void main(String[] args) {
+        Level currentLevel = LevelLoader.loadLevel("defaultLevel.json"); //TODO
+
+        startGameLoop(currentLevel);
+    }
+
+    private static void startGameLoop(Level level) {
+        level.spawnPlayer(new Player(0, 0, 0, 50, 50));
+
+        //TODO loop
+    }
+}
