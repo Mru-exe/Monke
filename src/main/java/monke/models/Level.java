@@ -38,6 +38,11 @@ public class Level {
         return levelId;
     }
 
+    public void spawnPlayer(Player player) {
+        this.player = player;
+        player.setCoords(spawnX, spawnY);
+    }
+
     public void setMonkey(Monkey monkey) {
         this.monkey = monkey;
     }
