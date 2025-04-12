@@ -22,8 +22,10 @@ public class BoundingBox {
      * @return true if the boxes overlap, false otherwise
      */
     public boolean intersects(BoundingBox other) {
-        if (other == null) return false;
-
+        if (other == null){
+            //log
+            return false; 
+        } 
         return this.x < other.x + other.width &&
                 this.x + this.width > other.x &&
                 this.y < other.y + other.height &&
