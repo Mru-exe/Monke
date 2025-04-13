@@ -2,6 +2,9 @@ package monke.models.entities;
 
 import monke.models.base.GameEntity;
 
+/**
+ * Represents an item (powerup) in the game.
+ */
 public class Item extends GameEntity {
         private enum ItemType {
             COIN, KEY, POTION, WEAPON, ARMOR

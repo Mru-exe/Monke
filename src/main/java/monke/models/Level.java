@@ -1,8 +1,9 @@
 package monke.models;
 
 import monke.models.entities.Monkey;
-import monke.models.entities.Player; 
+import monke.models.entities.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 public class Level {
@@ -20,7 +21,7 @@ public class Level {
     private Monkey monkey;
     private Goal goal;
 
-    private Platform[] platforms;
+    private List<Platform> platforms;
 
 
     public Level(String name, int spawnX, int spawnY) {
@@ -47,7 +48,7 @@ public class Level {
         this.monkey = monkey;
     }
 
-    public void setPlatforms(Platform[] platforms) {
+    public void setPlatforms(List<Platform> platforms) {
         this.platforms = platforms;
     }
 

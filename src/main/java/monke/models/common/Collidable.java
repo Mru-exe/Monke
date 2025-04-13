@@ -1,5 +1,9 @@
 package monke.models.common;
 
+/**
+ * Interface representing a collidable object in the game.
+ * Any object that can collide with others should implement this interface.
+ */
 public interface Collidable {
 
     /**

@@ -3,6 +3,10 @@ package monke.models;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
+/**
+ * Represents a goal object in the game.
+ * A simple trigger zone that the player can collide with to win the game.
+ */
 public class Goal implements Collidable {
     private int x;
     private int y;

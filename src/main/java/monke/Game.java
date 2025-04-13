@@ -4,6 +4,10 @@ import monke.controllers.LevelLoader;
 import monke.models.Level;
 import monke.models.entities.Player;
 
+/**
+ * Main class for the game.
+ * This class initializes the game and starts the main game loop.
+ */
 public class Game {
     public static void main(String[] args) {
         Level currentLevel = LevelLoader.loadLevel("defaultLevel.json"); //TODO

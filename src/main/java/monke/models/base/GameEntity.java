@@ -3,6 +3,9 @@ package monke.models.base;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
+/**
+ * Abstract class representing a game entity that can be rendered and has collision detection capabilities.
+ */
 public abstract class GameEntity extends GameObject implements Collidable {
     private BoundingBox boundary = null;
 

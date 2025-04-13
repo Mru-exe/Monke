@@ -1,6 +1,10 @@
 package monke.models.base;
 import java.util.UUID;
 
+/**
+ * Base class for all game objects.
+ * This class provides a unique ID and basic position and rotation properties.
+ */
 public abstract class GameObject {
     protected final UUID id;
 

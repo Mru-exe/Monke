@@ -2,6 +2,10 @@ package monke.models.entities;
 
 import monke.models.base.GameEntity;
 
+/**
+ * Represents a barrel in the game.
+ * The barrel can roll and explode.
+ */
 public class Barrel extends GameEntity {
     private int speed = 5;
 

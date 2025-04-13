@@ -2,9 +2,14 @@ package monke.models;
 
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
+import monke.models.common.Collidable;
 
 //TODO
-public class Platform extends GameObject {
+
+/**
+ * Represents a platform in the game.
+ */
+public class Platform extends GameObject implements Collidable {
     private int width;
     private int height;
 
@@ -27,6 +32,16 @@ public class Platform extends GameObject {
 
     public BoundingBox getBounds() {
         return boundary;
+    }
+
+    @Override
+    public void setBounds(BoundingBox boundary) {
+        return;
+    }
+
+    @Override
+    public void onCollision(Collidable other) {
+
     }
 
     @Override

@@ -1,5 +1,8 @@
 package monke.models.common;
 
+/**
+ * Represents a bounding box for collision detection.
+ */
 public class BoundingBox {
     private float x, y, width, height;
 
