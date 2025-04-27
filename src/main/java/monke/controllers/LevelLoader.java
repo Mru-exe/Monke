@@ -1,6 +1,6 @@
 package monke.controllers;
 
-import monke.models.Level;
+import monke.models.GameLevel;
 
 /**
  * LevelLoader is responsible for loading levels from JSON files.
@@ -13,9 +13,9 @@ public class LevelLoader {
      * @param levelFilePath
      * @return Level object of the level
      */
-    public static Level loadLevel(String levelFilePath) {
+    public static GameLevel loadLevel(String levelFilePath) {
         //TODO: deserialize 
 
-        return new Level("", 0, 0);
+        return new GameLevel("", 0, 0);
     }
 }

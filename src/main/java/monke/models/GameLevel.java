@@ -6,7 +6,7 @@ import monke.models.entities.Player;
 import java.util.List;
 import java.util.UUID;
 
-public class Level {
+public class GameLevel {
     private String name;
     private UUID levelId;
 
@@ -24,7 +24,7 @@ public class Level {
     private List<Platform> platforms;
 
 
-    public Level(String name, int spawnX, int spawnY) {
+    public GameLevel(String name, int spawnX, int spawnY) {
         this.name = name;
         this.spawnX = spawnX;
         this.spawnY = spawnY;
