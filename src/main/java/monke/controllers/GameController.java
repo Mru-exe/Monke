@@ -1,36 +1,93 @@
 package monke.controllers;
 
-import javafx.application.Application;
 
+import javafx.scene.Scene;
+import monke.enums.Command;
+import monke.enums.GameEvent;
+import monke.models.GameLevel;
+import monke.models.base.GameObject;
+import monke.models.common.Updatable;
+import monke.models.entities.Player;
+import monke.utils.EventBus;
+import monke.utils.GameLoop;
+import monke.views.GameView;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
-public class GameController implements Runnable {
-    private static GameController instance;
+public class GameController {
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
 
-    private GameController() {
-        //Initialize
+    private final Set<GameObject> activeSprites = new HashSet<>();
+
+    private GameLoop logicThread = new GameLoop(){
+        @Override
+        protected void process() {
+            for (GameObject go : activeSprites) {
+                if (go instanceof Updatable) {
+                    ((Updatable) go).update();
+                }
+            }
+        }
+    };
+
+    private final GameLevel level;
+    private final GameView view;
+    private final Player player;
+
+    public GameController(GameLevel level) {
+        this.view = new GameView(this);
+//        this.level = level;
+        this.level = new GameLevel("TestLevel", 0, 0);
+
+        Player player = new Player(0,100,0,10,10);
+        view.spriteFactory.applySpriteToModel(player);
+        this.player = player;
+        this.activeSprites.add(player);
+        this.pushSpritesToView(activeSprites);
+
+        logger.finer("GameController initialized");
+        view.startRenderingLoop(activeSprites);
+        this.logicThread.start();
     }
 
-    /**
-     * @return Singleton instance of GameController
-     */
-    public static GameController getInstance() {
-        if (instance == null) {
-            instance = new GameController();
-        }
-        return instance;
+    private void pushSpritesToView(Collection<GameObject> sprites){
+        logger.finer("Pushing sprites to view");
+        this.view.addGameObjects(sprites);
     }
 
-    @Override
-    public void run() {
-        logger.info("Game logic thread started");
-        try {
-            //this.startGameLoop();
-        } catch (Exception e){
-            logger.warning("Failed to start game loop...");
-            logger.finer(e.getMessage());
+    public void handleInput(String key, boolean release){
+        Player player = this.player;
+
+        Command cmd = InputController.parse(key, release);
+
+        switch (cmd){
+            case Command.PLAYER_LEFT -> player.setVelX(-5);
+            case Command.PLAYER_RIGHT -> player.setVelX(5);
+            case Command.PLAYER_JUMP -> player.setVelY(-5);
+            case Command.PLAYER_STOP -> player.setVelX(0);
+            case Command.GAME_QUIT -> {
+                logger.finer("Game quit");
+                logicThread.stop();
+                EventBus.publish(GameEvent.OPEN_MAIN_MENU);
+                break;
+            }
         }
-        logger.info("Game logic thread stopped");
     }
+
+    public Scene getView() {
+        return this.view;
+    }
+
+//    public void pauseGame(){
+//        logger.finer("Game paused");
+//        EventBus.publish(GameEvent.PAUSE_GAME);
+//    }
+//
+//    public void resumeGame(){
+//        logger.finer("Game resumed");
+//        EventBus.publish(GameEvent.RESUME_GAME);
+//    }
 }
