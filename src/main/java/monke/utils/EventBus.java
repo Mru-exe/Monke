@@ -1,4 +1,4 @@
-package monke.controllers;
+package monke.utils;
 
 import monke.enums.GameEvent;
 import monke.enums.GameState;
