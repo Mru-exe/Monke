@@ -1,39 +1,40 @@
 package monke.views;
 
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
-import monke.MonkeyGame;
+import javafx.scene.text.Font;
 
+import javax.management.ObjectInstance;
 import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
+
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class MainMenu extends Scene {
-    private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
-
+public class MainMenu extends BaseView {
+    private static final Logger logger = Logger.getLogger(MainMenu.class.getName()+"View");
 
     public MainMenu() {
-        super(new Group(), 800, 600);
-        Parent root = this.getFXML("views/MainMenu.fxml");
-        super.setRoot(root);
-        logger.finest("Main Menu scene initialized");
+        super();
+        logger.setLevel(Level.ALL);
+
+        this.getStylesheets().add(getClass().getResource("/css/main.css").toExternalForm());
+
+        Parent root = super.getFXML("/views/MainMenu.fxml");
+        this.loadFont("PressStart2P.ttf");
+
+        this.setRoot(root);
     }
 
-    private Parent getFXML(String fileName){
-        logger.finer("Loading FXML file: " + fileName);
-        URL fxmlURL = getClass().getResource("/" + fileName);
-        try{
-            if(fxmlURL == null) {
-                logger.warning("FXML file not found: " + fileName);
-                throw new IOException("FXML file not found: " + fileName);
+    private void loadFont(String fileName){
+        logger.finer("Loading font: " + fileName);
+        try (InputStream fontStream = getClass().getResourceAsStream("/" + fileName)) {
+            if (fontStream == null) {
+                logger.warning("Font file not found: " + fileName);
+                throw new IOException("Font file not found: " + fileName);
             }
-            return FXMLLoader.load(fxmlURL);
-        } catch (Exception e){
+            Font.loadFont(fontStream, 12);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        return new StackPane();
     }
 }
