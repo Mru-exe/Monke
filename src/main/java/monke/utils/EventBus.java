@@ -1,6 +1,7 @@
 package monke.controllers;
 
 import monke.enums.GameEvent;
+import monke.enums.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
