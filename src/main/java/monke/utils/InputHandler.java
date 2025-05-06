@@ -1,10 +1,7 @@
-package monke.controllers;
+package monke.utils;
 
 
-import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import monke.enums.Command;
-import monke.enums.GameEvent;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
@@ -13,8 +10,8 @@ import java.util.logging.Logger;
  * InputHandler is responsible for handling user input events.
  * (TBD) Raises event on key presses and mouse clicks
  */
-public abstract class InputController {
-    private static Logger logger = Logger.getLogger(InputController.class.getName());
+public abstract class InputHandler {
+    private static Logger logger = Logger.getLogger(InputHandler.class.getName());
 
     public static final ConcurrentHashMap<String, Command> keyBindings = new ConcurrentHashMap<>();
 
