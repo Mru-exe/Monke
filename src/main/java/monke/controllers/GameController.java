@@ -10,6 +10,7 @@ import monke.models.common.Updatable;
 import monke.models.entities.Player;
 import monke.utils.EventBus;
 import monke.utils.GameLoop;
+import monke.utils.InputHandler;
 import monke.views.GameView;
 
 import java.util.Collection;
@@ -61,7 +62,7 @@ public class GameController {
     public void handleInput(String key, boolean release){
         Player player = this.player;
 
-        Command cmd = InputController.parse(key, release);
+        Command cmd = InputHandler.parse(key, release);
 
         switch (cmd){
             case Command.PLAYER_LEFT -> player.setVelX(-5);
