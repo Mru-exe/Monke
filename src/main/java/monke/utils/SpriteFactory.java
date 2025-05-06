@@ -1,5 +1,7 @@
 package monke.utils;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -8,6 +10,7 @@ import javafx.scene.text.Text;
 import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
+import monke.models.common.Collidable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,13 +41,15 @@ public class SpriteFactory {
      * @return Sprite object
      */
     public void applySpriteToModel(GameObject go){
-        logger.finer("Creating sprite from model: " + go.getDebugString());
+        logger.finer("Creating sprite from model: " + go.getId());
         Collection<Node> el = new ArrayList<>();
+
+        Group root = new Group();
 
         if(showDebug){
             //If go is of type GameEntity - get bounds
-            if(go instanceof GameEntity){
-                BoundingBox bounds = ((GameEntity) go).getBounds();
+            if(go instanceof Collidable){
+                BoundingBox bounds = ((Collidable) go).getBounds();
                 Rectangle rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight());
                 rect.setFill(null);
                 rect.setStroke(Color.RED);
@@ -52,11 +57,17 @@ public class SpriteFactory {
                 el.add(rect);
             }
 
-            Text text = new Text(0, 0, go.getDebugString() + "\n" + go.getX() + "," + go.getY());
-            el.add(text);
+            Text coords = new Text();
+            StringBinding binding = Bindings.createStringBinding(
+                    () -> String.format(go.getId() + "\n[%.1f,%.1f]", root.getTranslateX(), root.getTranslateY()),
+                    root.translateXProperty(),
+                    root.translateYProperty()
+            );
+            coords.textProperty().bind(binding);
+            el.add(coords);
         }
 
-        Group root = new Group(el);
+        root.getChildren().addAll(el);
         root.setStyle("-fx-background-color: #ffffff;");
         root.setTranslateX(go.getX());
         root.setTranslateY(go.getY());
