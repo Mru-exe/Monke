@@ -58,13 +58,11 @@ public class GameView extends BaseView {
             if (!activeKeys.contains(event.getCode())) {
                 activeKeys.add(event.getCode());
                 gameController.handleInput(String.valueOf(event.getCode()), false);
-                logger.finer("Key pressed: " + event.getCode());
             }
         });
         this.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
             activeKeys.remove(event.getCode());
             gameController.handleInput(String.valueOf(event.getCode()), true);
-            logger.finer("Key released: " + event.getCode());
         });
     }
 }
