@@ -3,7 +3,6 @@ package monke.models.entities;
 import monke.enums.PlayerState;
 import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
-import monke.models.common.Collidable;
 
 /**
  * Represents a player in the game.
@@ -18,25 +17,11 @@ public class Player extends GameEntity{
         super(x, y, new BoundingBox(x, y, boundaryWidth, boundaryHeight));
     }
 
-    public synchronized void jump() {
-        if(this.state == PlayerState.IDLE || this.state == PlayerState.FALLING){
-            setVelY(jumpStrength);
-        }
+    public float getJumpStrength() {
+        return jumpStrength;
     }
 
-    public synchronized void moveLeft(){
-        if(this.state != PlayerState.CLIMBING){
-            setVelX(moveSpeed*-1);
-        }
-    }
-
-    public synchronized void moveRight(){
-        if(this.state != PlayerState.CLIMBING){
-            setVelX(moveSpeed);
-        }
-    }
-
-    public void setState(PlayerState state) {
-        this.state = state;
+    public float getMoveSpeed() {
+        return moveSpeed;
     }
 }
