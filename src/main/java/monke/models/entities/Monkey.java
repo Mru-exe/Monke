@@ -7,13 +7,20 @@ import monke.models.base.GameEntity;
  * Basically just origin coords for barrel spawns.
  */
 public class Monkey extends GameEntity{
-    public Monkey(int x, int y, float rotation) {
-        super(x, y, rotation);
+    public Monkey(float x, float y) {
+        super(x, y);
     }
 
     public void throwBarrel(int barrelSpeed) {
-        Barrel barell = new Barrel(this.getX(), this.getY(), 0.0f);
+        Barrel barell = new Barrel(this.getX(), this.getY());
         barell.setSpeed(barrelSpeed);
         //TODO
+    }
+
+    @Override
+    public void update() {
+        //TODO: Throw barrel on cooldown
+        //TODO: Animate monkey
+        return;
     }
 }

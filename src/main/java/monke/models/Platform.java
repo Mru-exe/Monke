@@ -15,8 +15,8 @@ public class Platform extends GameObject implements Collidable {
 
     private final BoundingBox boundary;
 
-    public Platform(int x, int y, float rotation, int width, int height) {
-        super(x, y, rotation);
+    public Platform(int x, int y, int width, int height) {
+        super(x, y);
         this.boundary = new BoundingBox(x, y, width, height);
         this.width = width;
         this.height = height;

@@ -1,26 +1,27 @@
 package monke.models.base;
-import java.util.UUID;
+import javafx.scene.Group;
 
 /**
  * Base class for all game objects.
  * This class provides a unique ID and basic position and rotation properties.
  */
 public abstract class GameObject {
-    protected final UUID id;
+    protected final long id;
 
-    private int x;
-    private int y;
-    protected float rotation = 0.0f; // Rotation in degrees
+    private Group fxSprite;
 
-    public GameObject(int x, int y, float rotation) {
-        this.id = UUID.randomUUID();
+    private float x;
+    private float y;
+
+    public GameObject(float x, float y) {
+
+        this.id = java.lang.System.nanoTime();
 
         this.x = x;
         this.y = y;
-        this.rotation = rotation;
     }
 
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
@@ -28,25 +29,25 @@ public abstract class GameObject {
         return this.getClass().getSimpleName() + "[" + this.id + "]";
     }
 
-    public int getX() {
+    public float getX() {
         return x;
     }
 
-    public int getY() {
+    public float getY() {
         return y;
     }
 
-    public float getRotation() {
-        return rotation;
+    public void setCoords(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
-    public void setCoords(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Group getFxSprite() {
+        return fxSprite;
     }
-    public void setCoords(int x, int y, float rotation) {
-        this.rotation = rotation;
-        this.x = x;
-        this.y = y;
+
+    public void setFxSprite(Group fxSprite) {
+        this.fxSprite = fxSprite;
     }
+
 }

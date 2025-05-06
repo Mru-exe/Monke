@@ -2,18 +2,26 @@ package monke.models.base;
 
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
+import monke.models.common.Updatable;
+
+import java.util.logging.Logger;
 
 /**
  * Abstract class representing a game entity that can be rendered and has collision detection capabilities.
  */
-public abstract class GameEntity extends GameObject implements Collidable {
+public abstract class GameEntity extends GameObject implements Collidable, Updatable {
+    private static final Logger logger = Logger.getLogger(GameEntity.class.getName());
+
     private BoundingBox boundary = null;
 
-    public GameEntity(int x, int y, float rotation) {
-        super(x, y, rotation);
+    private float velX = 0;
+    private float velY = 0;
+
+    public GameEntity(float x, float y) {
+        super(x, y);
     }
-    public GameEntity(int x, int y, float rotation, BoundingBox boundary) {
-        super(x, y, rotation);
+    public GameEntity(float x, float y, BoundingBox boundary) {
+        super(x, y);
         this.boundary = boundary;
     }
 
@@ -28,5 +36,22 @@ public abstract class GameEntity extends GameObject implements Collidable {
     @Override
     public void onCollision(Collidable other) {
         //TODO
+    }
+
+    @Override
+    public void update() {
+        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
+    }
+
+    public void setBoundary(BoundingBox boundary) {
+        this.boundary = boundary;
+    }
+
+    public void setVelX(float velX) {
+        this.velX = velX;
+    }
+
+    public void setVelY(float velY) {
+        this.velY = velY;
     }
 }

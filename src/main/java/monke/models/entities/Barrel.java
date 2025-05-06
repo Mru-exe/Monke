@@ -9,8 +9,8 @@ import monke.models.base.GameEntity;
 public class Barrel extends GameEntity {
     private int speed = 5;
 
-    public Barrel(int x, int y, float rotation) {
-        super(x, y, rotation);
+    public Barrel(float x, float y) {
+        super(x, y);
         this.speed = 10; // Default speed
     }
 
