@@ -1,12 +1,18 @@
 package monke.models.base;
 import javafx.scene.Group;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * Base class for all game objects.
  * This class provides a unique ID and basic position and rotation properties.
  */
 public abstract class GameObject {
-    protected final long id;
+    private static final Map<Class<? extends GameObject>, AtomicInteger> COUNTERS = new ConcurrentHashMap<>();
+
+    private final int id;
 
     private Group fxSprite;
 
@@ -15,18 +21,18 @@ public abstract class GameObject {
 
     public GameObject(float x, float y) {
 
-        this.id = java.lang.System.nanoTime();
+        AtomicInteger counter = COUNTERS.computeIfAbsent(
+                this.getClass(),
+                cls -> new AtomicInteger(0)
+        );
+        this.id = counter.incrementAndGet();
 
         this.x = x;
         this.y = y;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getDebugString() {
-        return this.getClass().getSimpleName() + "[" + this.id + "]";
+    public String getId() {
+        return this.getClass().getSimpleName() + "#" + this.id;
     }
 
     public float getX() {
