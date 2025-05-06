@@ -1,4 +1,4 @@
-package monke.controllers;
+package monke.utils;
 
 import monke.models.GameLevel;
 

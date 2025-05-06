@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 
 import monke.utils.EventBus;
 import monke.controllers.GameController;
-import monke.controllers.LevelLoader;
+import monke.utils.LevelLoader;
 import monke.enums.GameEvent;
 import monke.models.GameLevel;
 
