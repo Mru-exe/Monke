@@ -37,8 +37,14 @@ public class GameView extends BaseView {
         }
     }
 
+    /**
+     * Starts the rendering loop for the game.
+     *
+     * @implNote Must use FX's AnimationTimer instead of GameLoop because it's timing too precise a bit different, and FX ends up throwing an exception.
+     * @param sprites
+     */
     public void startRenderingLoop(Collection<GameObject> sprites){
-        AnimationTimer timer = new AnimationTimer() {
+        AnimationTimer renderingThread = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 for (GameObject go : sprites) {
@@ -48,8 +54,7 @@ public class GameView extends BaseView {
                 }
             }
         };
-        logger.fine("Starting rendering loop");
-        timer.start();
+        renderingThread.start();
     }
 
 
