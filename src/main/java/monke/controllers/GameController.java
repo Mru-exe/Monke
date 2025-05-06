@@ -11,6 +11,7 @@ import monke.models.entities.Player;
 import monke.utils.EventBus;
 import monke.utils.GameLoop;
 import monke.utils.InputHandler;
+import monke.utils.SpriteFactory;
 import monke.views.GameView;
 
 import java.util.Collection;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
 
 public class GameController {
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
+    private final SpriteFactory spriteFactory = new SpriteFactory(true);
 
     private final Set<GameObject> activeSprites = new HashSet<>();
 
@@ -44,7 +46,11 @@ public class GameController {
         this.level = new GameLevel("TestLevel", 0, 0);
 
         Player player = new Player(0,100,10,10);
-        view.spriteFactory.applySpriteToModel(player);
+        spriteFactory.applySpriteToModel(player);
+
+        Platform ground = new Platform(0, 100, 190, 10);
+        spriteFactory.applySpriteToModel(ground);
+
         this.player = player;
         this.activeSprites.add(player);
         this.pushSpritesToView(activeSprites);

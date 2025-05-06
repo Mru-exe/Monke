@@ -17,7 +17,6 @@ public class GameView extends BaseView {
     private static final Logger logger = Logger.getLogger(GameView.class.getName());
 
     private final Set<KeyCode> activeKeys = new HashSet<>(); //to handle key hold
-    public final SpriteFactory spriteFactory = new SpriteFactory(true);
     private final GameController gameController;
 
     public GameView(GameController controller) {
