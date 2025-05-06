@@ -40,8 +40,8 @@ public class GameView extends BaseView {
     /**
      * Starts the rendering loop for the game.
      *
-     * @implNote Must use FX's AnimationTimer instead of GameLoop because it's timing too precise a bit different, and FX ends up throwing an exception.
-     * @param sprites
+     * @implNote Must use FX's AnimationTimer instead of my GameLoop because it's timing is too precise and causes FX to throw an exception.
+     * @param sprites - Collection of GameObjects to be rendered.
      */
     public void startRenderingLoop(Collection<GameObject> sprites){
         AnimationTimer renderingThread = new AnimationTimer() {
