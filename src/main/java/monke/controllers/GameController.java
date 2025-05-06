@@ -23,7 +23,7 @@ public class GameController {
 
     private final Set<GameObject> activeSprites = new HashSet<>();
 
-    private GameLoop logicThread = new GameLoop(){
+    private final GameLoop logicThread = new GameLoop(){
         @Override
         protected void process() {
             for (GameObject go : activeSprites) {
@@ -43,7 +43,7 @@ public class GameController {
 //        this.level = level;
         this.level = new GameLevel("TestLevel", 0, 0);
 
-        Player player = new Player(0,100,0,10,10);
+        Player player = new Player(0,100,10,10);
         view.spriteFactory.applySpriteToModel(player);
         this.player = player;
         this.activeSprites.add(player);
@@ -73,7 +73,6 @@ public class GameController {
                 logger.finer("Game quit");
                 logicThread.stop();
                 EventBus.publish(GameEvent.OPEN_MAIN_MENU);
-                break;
             }
         }
     }
