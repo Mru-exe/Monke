@@ -16,6 +16,7 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
 
     private float velX = 0;
     private float velY = 0;
+    public static final float gravityStrength = 0.5f;
 
     public GameEntity(float x, float y) {
         super(x, y);
@@ -40,7 +41,8 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
 
     @Override
     public void update() {
-        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
+        this.velY += gravityStrength;
+        this.setCoords(this.getX() + this.velX, this.getY() + (this.velY));
     }
 
     public void setBoundary(BoundingBox boundary) {
