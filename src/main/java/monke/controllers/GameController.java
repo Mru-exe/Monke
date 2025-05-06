@@ -5,6 +5,8 @@ import javafx.scene.Scene;
 import monke.enums.Command;
 import monke.enums.GameEvent;
 import monke.models.GameLevel;
+import monke.models.Platform;
+import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.Updatable;
 import monke.models.entities.Player;
@@ -53,6 +55,7 @@ public class GameController {
 
         this.player = player;
         this.activeSprites.add(player);
+        this.activeSprites.add(ground);
         this.pushSpritesToView(activeSprites);
 
         logger.finer("GameController initialized");
@@ -71,10 +74,10 @@ public class GameController {
         Command cmd = InputHandler.parse(key, release);
 
         switch (cmd){
-            case Command.PLAYER_LEFT -> player.setVelX(-5);
-            case Command.PLAYER_RIGHT -> player.setVelX(5);
-            case Command.PLAYER_JUMP -> player.setVelY(-5);
-            case Command.PLAYER_STOP -> player.setVelX(0);
+            case Command.PLAYER_LEFT -> player.applyForceX(-5);
+            case Command.PLAYER_RIGHT -> player.applyForceX(5);
+            case Command.PLAYER_JUMP -> player.applyForceY(-26.2f* GameEntity.gravityStrength);
+            case Command.PLAYER_STOP -> player.applyFriction(0.9f); //Percentual friction (0.9 = loses 10% velocity each frame)
             case Command.GAME_QUIT -> {
                 logger.finer("Game quit");
                 logicThread.stop();

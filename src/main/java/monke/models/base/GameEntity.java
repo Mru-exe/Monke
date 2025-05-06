@@ -16,7 +16,9 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
 
     private float velX = 0;
     private float velY = 0;
-    public static final float gravityStrength = 0.5f;
+    public static final float gravityStrength = 0.0f;
+
+    private float frictionStrength = 1f;
 
     public GameEntity(float x, float y) {
         super(x, y);
@@ -42,18 +44,29 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     @Override
     public void update() {
         this.velY += gravityStrength;
-        this.setCoords(this.getX() + this.velX, this.getY() + (this.velY));
+        this.velX *= frictionStrength;
+        if(Math.abs(velX) < 0.05f){
+            velX = 0;
+            frictionStrength = 1;
+        }
+
+        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
     }
 
     public void setBoundary(BoundingBox boundary) {
         this.boundary = boundary;
     }
 
-    public void setVelX(float velX) {
+    public void applyForceX(float velX) {
+        this.frictionStrength = 1f;
         this.velX = velX;
     }
 
-    public void setVelY(float velY) {
+    public void applyForceY(float velY) {
         this.velY = velY;
+    }
+
+    public void applyFriction(float frictionStrength) {
+        this.frictionStrength = frictionStrength;
     }
 }
