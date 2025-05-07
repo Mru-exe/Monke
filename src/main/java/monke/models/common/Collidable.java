@@ -13,12 +13,10 @@ public interface Collidable {
      */
     BoundingBox getBounds();
 
-    /**
-     * Sets the bounding box of the object for collision detection.
-     *
-     * @param boundary a BoundingBox representing the new collision boundary.
-     */
-    void setBounds(BoundingBox boundary);
+
+
+    void updateBounds(float x, float y);
+    void updateBounds(float x, float y, float width, float height);
 
     /**
      * Defines behavior when a collision occurs with another Collidable object.
