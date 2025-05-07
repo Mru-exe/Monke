@@ -33,10 +33,6 @@ public class Goal implements Collidable {
         //win game
     }
 
-    public void setBounds(BoundingBox boundary) {
-        this.boundary = boundary;
-    }
-
     public int getX() {
         return x;
     }

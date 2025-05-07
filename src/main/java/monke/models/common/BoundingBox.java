@@ -13,10 +13,22 @@ public class BoundingBox {
         this.height = height;
     }
 
-    public float getX() { return x; }
-    public float getY() { return y; }
     public float getWidth() { return width; }
     public float getHeight() { return height; }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+    public void setHeight(float height) {
+        this.height = height;
+    }
 
     /**
      * Checks if this bounding box intersects with another.
@@ -26,8 +38,7 @@ public class BoundingBox {
      */
     public boolean intersects(BoundingBox other) {
         if (other == null){
-            //log
-            return false; 
+            return false;
         } 
         return this.x < other.x + other.width &&
                 this.x + this.width > other.x &&

@@ -13,10 +13,18 @@ public interface Collidable {
      */
     BoundingBox getBounds();
 
-
-
-    void updateBounds(float x, float y);
-    void updateBounds(float x, float y, float width, float height);
+    default void updateBounds(float x, float y) {
+        BoundingBox bounds = this.getBounds();
+        bounds.setX(x);
+        bounds.setY(y);
+    }
+    default void updateBounds(float x, float y, float width, float height) {
+        BoundingBox bounds = this.getBounds();
+        bounds.setX(x);
+        bounds.setY(y);
+        bounds.setWidth(width);
+        bounds.setHeight(height);
+    }
 
     /**
      * Defines behavior when a collision occurs with another Collidable object.
