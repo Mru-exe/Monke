@@ -13,12 +13,14 @@ public interface Collidable {
      */
     BoundingBox getBounds();
 
-    default void updateBounds(float x, float y) {
+    default void updateBounds(double x, double y) {
         BoundingBox bounds = this.getBounds();
-        bounds.setX(x);
-        bounds.setY(y);
+        if(bounds != null) {
+            bounds.setX(x);
+            bounds.setY(y);
+        }
     }
-    default void updateBounds(float x, float y, float width, float height) {
+    default void updateBounds(int x, int y, int width, int height) {
         BoundingBox bounds = this.getBounds();
         bounds.setX(x);
         bounds.setY(y);

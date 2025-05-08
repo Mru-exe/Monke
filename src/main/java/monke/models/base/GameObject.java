@@ -16,11 +16,10 @@ public abstract class GameObject {
 
     private Group fxSprite;
 
-    private float x;
-    private float y;
+    protected double x;
+    protected double y;
 
-    public GameObject(float x, float y) {
-
+    public GameObject(double x, double y) {
         AtomicInteger counter = COUNTERS.computeIfAbsent(
                 this.getClass(),
                 cls -> new AtomicInteger(0)
@@ -35,15 +34,15 @@ public abstract class GameObject {
         return this.getClass().getSimpleName() + "#" + this.id;
     }
 
-    public float getX() {
+    public double getX() {
         return x;
     }
 
-    public float getY() {
+    public double getY() {
         return y;
     }
 
-    public void setCoords(float x, float y) {
+    public void setCoords(double x, double y) {
         this.x = x;
         this.y = y;
     }

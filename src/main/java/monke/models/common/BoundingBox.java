@@ -4,29 +4,41 @@ package monke.models.common;
  * Represents a bounding box for collision detection.
  */
 public class BoundingBox {
-    private float x, y, width, height;
+    private double x;
+    private double y;
+    private double width;
+    private double height;
+    private static final double EPS = 0;
 
-    public BoundingBox(float x, float y, float width, float height) {
+
+    public BoundingBox(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public float getWidth() { return width; }
-    public float getHeight() { return height; }
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
+    }
 
-    public void setX(float x) {
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
+
+    public void setX(double x) {
         this.x = x;
     }
-    public void setY(float y) {
+    public void setY(double y) {
         this.y = y;
     }
 
-    public void setWidth(float width) {
+    public void setWidth(double width) {
         this.width = width;
     }
-    public void setHeight(float height) {
+    public void setHeight(double height) {
         this.height = height;
     }
 
