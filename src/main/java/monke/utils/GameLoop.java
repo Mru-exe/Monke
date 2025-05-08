@@ -82,7 +82,8 @@ public abstract class GameLoop implements Runnable {
 
                 long now = System.nanoTime();
                 if(now - lastTime >= TARGET_TIME){
-                    process();
+                    double dt = TARGET_TIME / 1_000_000_00.0; // ≈0.0166667
+                    process(dt);
                     lastTime += TARGET_TIME;
                 } else {
                     currentThread.sleep(1); //
@@ -98,7 +99,7 @@ public abstract class GameLoop implements Runnable {
     /**
      * Abstract method containing the game logic to execute each frame
      */
-    protected abstract void process();
+    protected abstract void process(double dt);
 
     /**
      * Optional method to handle rendering (can be split into separate method)
