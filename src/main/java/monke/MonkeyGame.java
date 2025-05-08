@@ -70,8 +70,8 @@ public class MonkeyGame extends Application {
     }
 
     private void startGame(){
-        GameLevel currentLevel = LevelLoader.loadLevel(null);
-//        BaseView game = new GameView();
-//        this.primaryStage.setScene(game);
+        GameLevel level = LevelLoader.loadLevel("default-level.json");
+        GameController controller = new GameController(level);
+        this.primaryStage.setScene(controller.getView());
     }
 }
