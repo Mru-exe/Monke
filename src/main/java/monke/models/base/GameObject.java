@@ -30,7 +30,8 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public String getId() {
+    @Override
+    public String toString() {
         return this.getClass().getSimpleName() + "#" + this.id;
     }
 
