@@ -19,11 +19,6 @@ public class EventBus {
      //HashMap to store event listeners - concurrent makes it thread-safe.
     private static final ConcurrentHashMap<GameEvent, List<Runnable>> eventListeners = new ConcurrentHashMap<>();
 
-    //Static class initialization
-    static {
-        logger.setLevel(Level.ALL);
-        logger.setUseParentHandlers(true);
-    }
     private EventBus() {}
 
 
@@ -33,7 +28,7 @@ public class EventBus {
      * @param listener - The function to be called when the event is published.
      */
     public static void subscribe(GameEvent event, Runnable listener) {
-        logger.fine(listener + " Subscribing to event: " + event);
+        logger.finest(listener + " Subscribing to event: " + event);
         eventListeners.computeIfAbsent(event, e -> new ArrayList<>()).add(listener);
     }
 
@@ -49,7 +44,7 @@ public class EventBus {
      * @param event - The event to publish.
      */
     public static synchronized void publish(GameEvent event) {
-        logger.fine("Publishing event: " + event);
+        logger.finer("Publishing event: " + event);
         List<Runnable> listeners = eventListeners.get(event);
         if (listeners != null) {
             for (Runnable listener : listeners) {
