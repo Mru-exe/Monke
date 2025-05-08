@@ -31,29 +31,22 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
         this.boundary = boundary;
     }
 
-    public void setBounds(BoundingBox boundary) {
-        this.boundary = boundary;
-    }
-
     public BoundingBox getBounds(){
         return this.boundary;
     };
 
     @Override
-    public void onCollision(Collidable other) {
-        //TODO
-    }
+    public void update(double dt) {
+        //First move, then recalculate physics; otherwise collisions are buggy
+        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
+        this.updateBounds(this.getX(), this.getY());
 
-    @Override
-    public void update() {
         this.velY += gravityStrength;
         this.velX *= frictionStrength;
-        if(Math.abs(velX) < 0.05f){
-            velX = 0;
+        if(Math.abs(velX) <= 0.125d){ //friction threshold
             frictionStrength = 1;
+            velX = 0;
         }
-
-        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
     }
 
     public double getVelY() {
