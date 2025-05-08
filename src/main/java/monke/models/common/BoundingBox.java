@@ -8,8 +8,6 @@ public class BoundingBox {
     private double y;
     private double width;
     private double height;
-    private static final double EPS = 0;
-
 
     public BoundingBox(double x, double y, double width, double height) {
         this.x = x;
@@ -49,13 +47,22 @@ public class BoundingBox {
      * @return true if the boxes overlap, false otherwise
      */
     public boolean intersects(BoundingBox other) {
-        if (other == null){
-            return false;
-        } 
-        return this.x < other.x + other.width &&
-                this.x + this.width > other.x &&
-                this.y < other.y + other.height &&
-                this.y + this.height > other.y;
+        if (other == null) return false;
+
+        return this.y + this.height >= other.y &&
+                this.y <= other.y + other.height &&
+                this.x + this.width >= other.x &&
+                this.x <= other.x + other.width;
+    }
+    
+    @Override
+    public String toString() {
+        return "{" +
+                "x=" + x +
+                ", y=" + y +
+                ", width=" + width +
+                ", height=" + height +
+                '}';
     }
 }
 
