@@ -33,5 +33,9 @@ public interface Collidable {
      *
      * @param other the other Collidable object involved in the collision.
      */
-    void onCollision(Collidable other);
+    default void onCollision(Collidable other){
+        // The default implementation does nothing.
+        System.out.println(this.toString() + this.getBounds().toString() + " colliding with " + other.toString() + other.getBounds().toString());
+        return;
+    };
 }
