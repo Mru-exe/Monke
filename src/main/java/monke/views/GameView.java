@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import monke.controllers.GameController;
 import monke.models.base.GameObject;
+import monke.utils.JavaFXInputAdapter;
 import monke.utils.SpriteFactory;
 
 import java.util.Collection;
@@ -16,7 +17,6 @@ import java.util.logging.Logger;
 public class GameView extends BaseView {
     private static final Logger logger = Logger.getLogger(GameView.class.getName());
 
-    private final Set<KeyCode> activeKeys = new HashSet<>(); //to handle key hold
     private final GameController gameController;
 
     private AnimationTimer renderingThread;
@@ -27,8 +27,6 @@ public class GameView extends BaseView {
 
         this.gameController = controller;
         this.getRoot().setStyle("-fx-background-color: #3f3f3f;");
-
-        addHandlers();
     }
 
     /**
@@ -65,14 +63,5 @@ public class GameView extends BaseView {
     }
     public void pauseRenderingThread(){
         renderingThread.stop();
-    }
-
-    private void addHandlers() {
-        this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            gameController.handleInput(String.valueOf(event.getCode()), false);
-        });
-        this.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            gameController.handleInput(String.valueOf(event.getCode()), true);
-        });
     }
 }

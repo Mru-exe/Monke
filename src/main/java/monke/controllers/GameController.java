@@ -10,10 +10,7 @@ import monke.models.base.GameObject;
 import monke.models.common.Collidable;
 import monke.models.common.Updatable;
 import monke.models.entities.Player;
-import monke.utils.EventBus;
-import monke.utils.GameLoop;
-import monke.utils.InputHandler;
-import monke.utils.SpriteFactory;
+import monke.utils.*;
 import monke.views.GameView;
 
 import java.util.logging.Logger;
@@ -22,9 +19,14 @@ public class GameController {
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
     private final SpriteFactory sf = new SpriteFactory(true);
 
+    protected final InputHandler inputHandler = new InputHandler();
+
     private final GameLoop logicThread = new GameLoop(){
         @Override
         protected void process(double dt) {
+            inputHandler.update();
+            resolveMovement();
+
             for (Updatable u : level.getUpdatable()) {
                 u.update(dt);
             }
@@ -52,31 +54,20 @@ public class GameController {
         }
         this.player = level.getPlayer();
 
-
         view.pushSprites(level.getGameObjects());
+
+        new JavaFXInputAdapter(view.getRoot().getScene(), inputHandler);
 
         view.startRenderingThread();
         this.logicThread.start();
     }
 
-    public void handleInput(String key, boolean release){
-        Player player = this.player;
-
-        Command cmd = InputHandler.parse(key, release);
-
-        switch (cmd){
-            case Command.PLAYER_LEFT -> player.applyForceX(-15);
-            case Command.PLAYER_RIGHT -> player.applyForceX(15);
-            case Command.PLAYER_JUMP -> {
-                if(Math.abs(player.getVelY()) <= 0) {
-                    player.applyForceY(-4.5*GameEntity.gravityStrength);
-                }
-            }
-            case Command.PLAYER_STOP -> player.setDamping(0.7d); //Percentual friction (0.8 = loses 20% velocity each frame)
-            case Command.GAME_QUIT -> {
-                logger.finer("Game quit");
-                logicThread.stop();
-                EventBus.publish(GameEvent.OPEN_MAIN_MENU);
+    protected void resolveMovement() {
+        if(inputHandler.isPressed(Command.PLAYER_LEFT)) player.applyForceX(-15-player.getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) player.applyForceX(15+player.getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_JUMP)) {
+            if(Math.abs(player.getVelY()) <= 0) {
+                player.applyForceY(-4.5*GameEntity.gravityStrength);
             }
         }
     }
