@@ -52,7 +52,6 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     }
 
     public void applyForceX(double velX) {
-        this.damping = 1d;
         this.velX = velX;
     }
     public void applyForceY(double velY) {
@@ -61,5 +60,9 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
 
     public void setDamping(double frictionStrength) {
         this.damping = frictionStrength;
+    }
+
+    public double getDamping() {
+        return this.damping;
     }
 }
