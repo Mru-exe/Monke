@@ -1,7 +1,6 @@
 package monke.utils;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
@@ -40,37 +39,44 @@ public class SpriteFactory {
      * @param go model (GameObject instance)
      * @return Sprite object
      */
-    public void applySpriteToModel(GameObject go){
-        logger.finer("Creating sprite from model: " + go.getId());
-        Collection<Node> el = new ArrayList<>();
+    public void applySpriteToModel(GameObject go) {
+        logger.finer("Creating sprite from model: " + go.toString());
 
         Group root = new Group();
-
-        if(showDebug){
-            //If go is of type GameEntity - get bounds
-            if(go instanceof Collidable){
-                BoundingBox bounds = ((Collidable) go).getBounds();
-                Rectangle rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight());
-                rect.setFill(null);
-                rect.setStroke(Color.RED);
-                rect.setStrokeWidth(3);
-                el.add(rect);
-            }
-
-            Text coords = new Text();
-            StringBinding binding = Bindings.createStringBinding(
-                    () -> String.format(go.getId() + "\n[%.1f,%.1f]", root.getTranslateX(), root.getTranslateY()),
-                    root.translateXProperty(),
-                    root.translateYProperty()
-            );
-            coords.textProperty().bind(binding);
-            el.add(coords);
-        }
-
-        root.getChildren().addAll(el);
-        root.setStyle("-fx-background-color: #ffffff;");
         root.setTranslateX(go.getX());
         root.setTranslateY(go.getY());
+        root.setStyle("-fx-background-color: #ffffff;");
+
+        if (showDebug) {
+            Collection<Node> debugElements = new ArrayList<>();
+            try {
+                if (go instanceof Collidable collidable) {
+                    BoundingBox bounds = collidable.getBounds();
+                    Rectangle rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight());
+                    rect.setFill(null);
+                    rect.setStroke(Color.RED);
+                    rect.setStrokeWidth(3);
+                    debugElements.add(rect);
+                }
+
+                if (go instanceof GameEntity entity) {
+                    Text coords = new Text();
+                    coords.textProperty().bind(Bindings.createStringBinding(
+                            () -> String.format("%s\n[%.1f, %.1f]\nVel: [%.3f, %.3f]",
+                                    go.toString(),
+                                    root.getTranslateX(), root.getTranslateY(),
+                                    entity.getVelX(), entity.getVelY()
+                            ),
+                            root.translateXProperty(), root.translateYProperty()
+                    ));
+                    debugElements.add(coords);
+                }
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            root.getChildren().addAll(debugElements);
+        }
+
         go.setFxSprite(root);
     }
 }
