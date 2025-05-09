@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import monke.controllers.MainMenuController;
 import monke.utils.EventBus;
 import monke.controllers.GameController;
 import monke.utils.LevelLoader;
@@ -64,9 +65,8 @@ public class MonkeyGame extends Application {
     }
 
     private void openMenu(){
-        this.primaryStage.setScene(new GameController(null).getView());
-
-
+        MainMenuController controller = new MainMenuController();
+        this.primaryStage.setScene(controller.getView());
     }
 
     private void startGame(){
