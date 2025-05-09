@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
 
+import javafx.stage.StageStyle;
 import monke.controllers.MainMenuController;
 import monke.utils.EventBus;
 import monke.controllers.GameController;
@@ -47,8 +48,10 @@ public class MonkeyGame extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         primaryStage.setTitle("Monkey Game");
-        primaryStage.show();
+        primaryStage.setResizable(false);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
         this.openMenu();
+        primaryStage.show();
     }
 
     @Override

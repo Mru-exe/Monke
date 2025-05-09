@@ -22,7 +22,7 @@ public abstract class BaseView extends Scene {
     private Pane basePane = new Pane();
 
     public BaseView(){
-        super(new BorderPane(), 1920, 1080);
+        super(new BorderPane(), 960, 720);
     }
 
     protected Pane getBasePane() {
