@@ -19,6 +19,8 @@ public class GameView extends BaseView {
     private final Set<KeyCode> activeKeys = new HashSet<>(); //to handle key hold
     private final GameController gameController;
 
+    private AnimationTimer renderingThread;
+
     public GameView(GameController controller) {
         super();
         logger.finer("GameView initialized");
@@ -29,44 +31,47 @@ public class GameView extends BaseView {
         addHandlers();
     }
 
-    public void addGameObjects(Collection<GameObject> objects){
+    /**
+     * Pushes the sprites to the base pane and starts the rendering thread.
+     * @param objects Collection of game objects to be rendered.
+     *
+     * Repeated calls to this method will re-initialize the rendering thread.
+     */
+    public void pushSprites(Collection<GameObject> objects){
         logger.info("Loading "+ objects.size() + " sprites");
         for (GameObject go : objects) {
-            Group sprite = go.getFxSprite();
-            this.getBasePane().getChildren().add(sprite);
+            if(go.getFxSprite() != null) {
+                Group sprite = go.getFxSprite();
+                this.getBasePane().getChildren().add(sprite);
+            }
         }
-    }
-
-    /**
-     * Starts the rendering loop for the game.
-     *
-     * @implNote Must use FX's AnimationTimer instead of my GameLoop because it's timing is too precise and causes FX to throw an exception.
-     * @param sprites - Collection of GameObjects to be rendered.
-     */
-    public void startRenderingLoop(Collection<GameObject> sprites){
-        AnimationTimer renderingThread = new AnimationTimer() {
+        renderingThread = new AnimationTimer() {
             @Override
-            public void handle(long now) {
-                for (GameObject go : sprites) {
+            public void handle(long l) {
+                for (GameObject go : objects) {
                     Group fxSprite = go.getFxSprite();
+                    if(fxSprite == null) {
+                        continue;
+                    }
                     fxSprite.setTranslateX(go.getX());
                     fxSprite.setTranslateY(go.getY());
                 }
             }
         };
-        renderingThread.start();
     }
 
+    public void startRenderingThread(){
+        renderingThread.start();
+    }
+    public void pauseRenderingThread(){
+        renderingThread.stop();
+    }
 
     private void addHandlers() {
         this.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-            if (!activeKeys.contains(event.getCode())) {
-                activeKeys.add(event.getCode());
-                gameController.handleInput(String.valueOf(event.getCode()), false);
-            }
+            gameController.handleInput(String.valueOf(event.getCode()), false);
         });
         this.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            activeKeys.remove(event.getCode());
             gameController.handleInput(String.valueOf(event.getCode()), true);
         });
     }
