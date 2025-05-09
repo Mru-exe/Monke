@@ -3,6 +3,7 @@ package monke.views;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import monke.utils.EventBus;
@@ -21,14 +22,14 @@ public abstract class BaseView extends Scene {
     private Pane basePane = new Pane();
 
     public BaseView(){
-        super(new Pane());
+        super(new BorderPane(), 1920, 1080);
     }
 
     protected Pane getBasePane() {
         return ((Pane) this.getRoot());
     }
 
-    protected Parent getFXML(String fileName) {
+    protected Parent loadFXML(String fileName, Object controller) {
         logger.finer("Loading FXML file: " + fileName);
         URL fxmlURL = getClass().getResource(fileName);
         try{
@@ -37,7 +38,7 @@ public abstract class BaseView extends Scene {
                 throw new IOException("FXML file not found: " + fileName);
             }
             FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
-//            fxmlLoader.setController();
+            fxmlLoader.setController(controller);
             return fxmlLoader.load();
         } catch (Exception e){
             e.printStackTrace();

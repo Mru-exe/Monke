@@ -3,11 +3,19 @@ package monke.controllers;
 import javafx.fxml.FXML;
 import monke.enums.GameEvent;
 import monke.utils.EventBus;
+import monke.views.BaseView;
+import monke.views.MainMenu;
 
 
 public class MainMenuController {
+    MainMenu view;
+
     public MainMenuController(){
-        //init
+        this.view = new MainMenu(this);
+    }
+
+    public BaseView getView(){
+        return this.view;
     }
 
     @FXML
