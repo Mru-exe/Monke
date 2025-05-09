@@ -15,13 +15,10 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     private BoundingBox boundary = null;
 
     private double velX = 0;
-    private double velY = 0;
+    private double velY = gravityStrength; // Start in falling state
 
-    private double maxVelX = 10;
-    private double maxVelY = 10;
-
-    public static final double gravityStrength = 0.2d;
-    private double frictionStrength = 1d;
+    public static final double gravityStrength = 8.9d;
+    private double damping = 0.7d;
 
     public GameEntity(double x, double y) {
         super(x, y);
@@ -37,14 +34,12 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
 
     @Override
     public void update(double dt) {
-        //First move, then recalculate physics; otherwise collisions are buggy
-        this.setCoords(this.getX() + this.velX, this.getY() + this.velY);
-        this.updateBounds(this.getX(), this.getY());
-
-        this.velY += gravityStrength;
-        this.velX *= frictionStrength;
-        if(Math.abs(velX) <= 0.125d){ //friction threshold
-            frictionStrength = 1;
+        velY += gravityStrength * dt;
+        x    += velX * dt;
+        y    += velY * dt;
+        this.updateBounds(x, y);
+        velX *= Math.pow(damping, dt);
+        if(Math.abs(velX) <= damping){
             velX = 0;
         }
     }
@@ -57,14 +52,14 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     }
 
     public void applyForceX(double velX) {
-        this.frictionStrength = 1d;
+        this.damping = 1d;
         this.velX = velX;
     }
     public void applyForceY(double velY) {
         this.velY = velY;
     }
 
-    public void applyFriction(double frictionStrength) {
-        this.frictionStrength = frictionStrength;
+    public void setDamping(double frictionStrength) {
+        this.damping = frictionStrength;
     }
 }
