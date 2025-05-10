@@ -70,6 +70,16 @@ public class SpriteFactory {
                             root.translateXProperty(), root.translateYProperty()
                     ));
                     debugElements.add(coords);
+                } else {
+                    Text coords = new Text();
+                    coords.textProperty().bind(Bindings.createStringBinding(
+                            () -> String.format("%s\n[%.1f, %.1f]",
+                                    go.toString(),
+                                    root.getTranslateX(), root.getTranslateY()
+                            ),
+                            root.translateXProperty(), root.translateYProperty()
+                    ));
+                    debugElements.add(coords);
                 }
             } catch (Exception e){
                 e.printStackTrace();
