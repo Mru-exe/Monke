@@ -75,4 +75,8 @@ public class GameController {
     public Scene getView() {
         return this.view;
     }
+
+    public GameLevel getLevel() {
+        return level;
+    }
 }
