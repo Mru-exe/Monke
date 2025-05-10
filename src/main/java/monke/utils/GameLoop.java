@@ -4,7 +4,6 @@ import java.util.logging.Logger;
 
 /**
  * This class is a bundle for instantiating any process running on a separate thread.
- * TODO: complete javadoc
  */
 public abstract class GameLoop implements Runnable {
     private static final Logger logger = Logger.getLogger(GameLoop.class.getName());
@@ -16,8 +15,6 @@ public abstract class GameLoop implements Runnable {
 
     private Thread currentThread;
     private volatile boolean isRunning = false;
-    private volatile boolean isPaused = false;
-    private final Object pauseLock = new Object();
 
     /**
      * Starts the game loop in a separate thread
@@ -35,7 +32,6 @@ public abstract class GameLoop implements Runnable {
      */
     public void stop() {
         isRunning = false;
-        resumeGame(); // Wake up the thread if it's paused
         if (currentThread != null) {
             try {
                 currentThread.join();
@@ -46,43 +42,15 @@ public abstract class GameLoop implements Runnable {
     }
 
     /**
-     * Toggles pause state of the game loop
-     */
-    public void pause() {
-        isPaused = !isPaused;
-        if (!isPaused) {
-            synchronized (pauseLock) {
-                pauseLock.notifyAll();
-            }
-        }
-    }
-
-    /**
-     * Resumes the game if paused
-     */
-    private void resumeGame() {
-        synchronized (pauseLock) {
-            pauseLock.notifyAll();
-        }
-    }
-
-    /**
      * Main loop that runs the game logic
-     * @implNote May go back to using thread.sleep(16)
      */
     @Override
     public void run() {
         while (isRunning) {
             try {
-                synchronized (pauseLock) {
-                    while (isPaused) {
-                        pauseLock.wait();
-                    }
-                }
-
                 long now = System.nanoTime();
                 if(now - lastTime >= TARGET_TIME){
-                    double dt = TARGET_TIME / 1_000_000_00.0; // ≈0.0166667
+                    double dt = TARGET_TIME / 1_000_000_00.0; //KEEP THIS LINE
                     process(dt);
                     lastTime += TARGET_TIME;
                 } else {
@@ -100,11 +68,4 @@ public abstract class GameLoop implements Runnable {
      * Abstract method containing the game logic to execute each frame
      */
     protected abstract void process(double dt);
-
-    /**
-     * Optional method to handle rendering (can be split into separate method)
-     */
-    protected void render() {
-        // Default empty implementation
-    }
 }
