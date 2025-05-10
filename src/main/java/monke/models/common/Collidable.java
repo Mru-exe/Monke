@@ -48,6 +48,7 @@ public interface Collidable {
         double overlapX = computeOverlap(self.getWidth(), other.getWidth(), dx);
         double overlapY = computeOverlap(self.getHeight(), other.getHeight(), dy);
 
+        this.onCollisionCustom(c);
         if (overlapX < overlapY) {
             resolveHorizontalCollision(dx, overlapX);
         } else {
@@ -65,4 +66,7 @@ public interface Collidable {
 
     default void resolveHorizontalCollision(double dx, double overlapX){}
     default void resolveVerticalCollision(double dy, double overlapY){}
+    default void onCollisionCustom(Collidable other) {
+        // Custom collision logic can be implemented in subclasses
+    }
 }

@@ -10,8 +10,15 @@ import monke.models.common.Collidable;
  */
 public class Player extends GameEntity{
 
-    public Player(int x, int y, int boundaryWidth, int boundaryHeight) {
-        super(x, y, new BoundingBox(x, y, boundaryWidth, boundaryHeight));
+    public Player(int x, int y) {
+        super(x, y, new BoundingBox(x, y, 16, 16));
+    }
+
+    @Override
+    public void onCollisionCustom(Collidable other) {
+        if(other instanceof Barrel){
+            //lose game
+        }
     }
 
     @Override

@@ -15,14 +15,11 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     private BoundingBox boundary = null;
 
     private double velX = 0;
-    private double velY = gravityStrength; // Start in falling state
+    private double velY = 0;
 
     public static final double gravityStrength = 8.9d;
     private double damping = 0.7d;
 
-    public GameEntity(double x, double y) {
-        super(x, y);
-    }
     public GameEntity(double x, double y, BoundingBox boundary) {
         super(x, y);
         this.boundary = boundary;

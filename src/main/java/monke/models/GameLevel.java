@@ -20,7 +20,7 @@ public class GameLevel {
     private Monkey monkey;
     private Set<Barrel> barrels = new HashSet<>();
 
-    //Static
+    //Objects
     private Set<Platform> platforms;
     private Goal goal;
 
@@ -29,7 +29,6 @@ public class GameLevel {
 
     //Setters
     public void setPlayer(Player player) {
-
         this.player = player;
     }
     public void setMonkey(Monkey monkey) {
@@ -58,7 +57,7 @@ public class GameLevel {
         Set<GameObject> gameObjects = new HashSet<>();
         gameObjects.add(player);
         gameObjects.add(monkey);
-//        gameObjects.addAll(barrels);
+        gameObjects.addAll(barrels);
         gameObjects.addAll(platforms);
 //        gameObjects.add(goal);
         return gameObjects;
@@ -66,13 +65,14 @@ public class GameLevel {
     public Collection<Updatable> getUpdatable() {
         Set<Updatable> updatable = new HashSet<>();
         updatable.add(player);
+        updatable.addAll(barrels);
 //        updatable.add(monkey);
         return updatable;
     }
     public Collection<Collidable> getCollidable() {
         Set<Collidable> collidable = new HashSet<>();
         collidable.add(player);
-//        collidable.addAll(barrels);
+        collidable.addAll(barrels);
         collidable.addAll(platforms);
 //        collidable.add(goal);
         return collidable;
