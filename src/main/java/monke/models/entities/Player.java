@@ -23,8 +23,11 @@ public class Player extends GameEntity{
 
     @Override
     public void resolveVerticalCollision(double dy, double overlapY) {
-        double shiftY = dy > 0 ? overlapY : -overlapY;
-        this.setCoords(this.getX(), this.getY() + shiftY);
-        this.applyForceY(0);
+        if(dy > 0){
+            this.applyForceY(gravityStrength);
+        } else {
+            this.setCoords(this.getX(), this.getY() - overlapY);
+            this.applyForceY(0);
+        }
     }
 }
