@@ -2,16 +2,11 @@ package monke.views;
 
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.Node;
 import monke.controllers.GameController;
 import monke.models.base.GameObject;
-import monke.utils.JavaFXInputAdapter;
-import monke.utils.SpriteFactory;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public class GameView extends BaseView {
@@ -46,16 +41,29 @@ public class GameView extends BaseView {
         renderingThread = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                for (GameObject go : objects) {
+                for (GameObject go : gameController.getLevel().getGameObjects()) {
                     Group fxSprite = go.getFxSprite();
                     if(fxSprite == null) {
                         continue;
                     }
                     fxSprite.setTranslateX(go.getX());
                     fxSprite.setTranslateY(go.getY());
+                    checkForCleanup(go);
                 }
             }
         };
+    }
+
+    private void checkForCleanup(GameObject go){
+        Node sprite = go.getFxSprite();
+        double absX = Math.abs(sprite.getTranslateX());
+        double absY = Math.abs(sprite.getTranslateY());
+
+        if(absX > 1.5*this.getWidth() || absY > 1.5*this.getHeight() || absX < 0 || absY < 0){
+            this.getBasePane().getChildren().remove(sprite);
+            gameController.getLevel().destroyObject(go);
+            logger.info("Killed sprite: " + go.toString());
+        }
     }
 
     public void startRenderingThread(){

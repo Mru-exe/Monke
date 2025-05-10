@@ -4,6 +4,7 @@ import monke.models.base.GameObject;
 import monke.models.common.Collidable;
 import monke.models.common.Updatable;
 import monke.models.entities.*;
+import monke.utils.EventBus;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -79,5 +80,16 @@ public class GameLevel {
     }
     public Collection<Barrel> getBarrels() {
         return barrels;
+    }
+
+    public void destroyObject(GameObject go) {
+        if (go instanceof Barrel) {
+            barrels.remove(go);
+        } else if (go instanceof Platform) {
+            platforms.remove(go);
+        } else if (go instanceof Player) {
+            System.out.println("GG player died XD");
+            EventBus.publish(monke.enums.GameEvent.EXIT_GAME);
+        }
     }
 }
