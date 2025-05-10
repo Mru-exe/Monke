@@ -3,16 +3,22 @@ package monke.utils;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import monke.enums.SpriteImage;
 import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 /**
@@ -24,14 +30,34 @@ public class SpriteFactory {
 
     private final boolean showDebug;
 
+    private ConcurrentHashMap<SpriteImage, Image> imageCache = new ConcurrentHashMap<>();
+
     /**
      * @param isTest - false by default. set to true if you want to render hitboxes.
      */
     public SpriteFactory(boolean isTest) {
         this.showDebug = isTest;
+        this.loadImages();
     }
     public SpriteFactory() {
         this.showDebug = false;
+        this.loadImages();
+    }
+
+    private void loadImages(){
+        for(SpriteImage image : SpriteImage.values()){
+            logger.finer("Looking sprite: " + image);
+            if(!imageCache.containsKey(image) && image.getPath() != null){
+                try(InputStream stream = this.getClass().getResourceAsStream(image.getPath())) {
+                    Image img = new Image(stream);
+                    imageCache.put(image, img);
+                    logger.info(image + " sprite successfully cached");
+                } catch (Exception e){
+                    logger.warning("Failed to load " + image + " sprite");
+//                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
@@ -46,7 +72,7 @@ public class SpriteFactory {
         root.setTranslateX(go.getX());
         root.setTranslateY(go.getY());
         root.setStyle("-fx-background-color: #ffffff;");
-
+        root.setAutoSizeChildren(true);
         if (showDebug) {
             Collection<Node> debugElements = new ArrayList<>();
             try {
@@ -55,7 +81,7 @@ public class SpriteFactory {
                     Rectangle rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight());
                     rect.setFill(null);
                     rect.setStroke(Color.RED);
-                    rect.setStrokeWidth(3);
+                    rect.setStrokeWidth(1);
                     debugElements.add(rect);
                 }
 
@@ -86,6 +112,15 @@ public class SpriteFactory {
             }
             root.getChildren().addAll(debugElements);
         }
+
+        ImageView img =  new ImageView(imageCache.get(go.getImg()));
+        img.setId("image");
+
+        if(go.getImg() == SpriteImage.BARREL){
+            img.rotateProperty().bind(root.translateXProperty().multiply(1.2f));
+        }
+
+        root.getChildren().add(img);
 
         go.setFxSprite(root);
     }

@@ -1,6 +1,7 @@
 package monke.models.entities;
 
 import monke.enums.GameEvent;
+import monke.enums.SpriteImage;
 import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
@@ -15,6 +16,7 @@ public class Barrel extends GameEntity {
 
     public Barrel(int x, int y) {
         super(x, y, new BoundingBox(x, y, 32, 32));
+        this.img = SpriteImage.BARREL;
         this.applyForceX(0);
         this.setDamping(1.01f);
         speed = (x > 430) ? -speed : speed;

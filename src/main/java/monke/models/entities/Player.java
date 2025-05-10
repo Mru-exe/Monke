@@ -1,6 +1,6 @@
 package monke.models.entities;
 
-import monke.enums.PlayerState;
+import monke.enums.SpriteImage;
 import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
@@ -11,7 +11,8 @@ import monke.models.common.Collidable;
 public class Player extends GameEntity{
 
     public Player(int x, int y) {
-        super(x, y, new BoundingBox(x, y, 16, 16));
+        super(x, y, new BoundingBox(x, y, 32, 32));
+        this.img = SpriteImage.PLAYER;
     }
 
     @Override
