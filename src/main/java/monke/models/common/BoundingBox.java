@@ -40,21 +40,6 @@ public class BoundingBox {
         this.height = height;
     }
 
-    /**
-     * Checks if this bounding box intersects with another.
-     *
-     * @param other the other BoundingBox
-     * @return true if the boxes overlap, false otherwise
-     */
-    public boolean intersects(BoundingBox other) {
-        if (other == null) return false;
-
-        return this.y + this.height >= other.y &&
-                this.y <= other.y + other.height &&
-                this.x + this.width >= other.x &&
-                this.x <= other.x + other.width;
-    }
-    
     @Override
     public String toString() {
         return "{" +

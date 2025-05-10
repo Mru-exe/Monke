@@ -3,7 +3,6 @@ package monke.controllers;
 
 import javafx.scene.Scene;
 import monke.enums.Command;
-import monke.enums.GameEvent;
 import monke.models.GameLevel;
 import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
@@ -32,8 +31,8 @@ public class GameController {
             }
             for (Collidable c : level.getCollidable()) {
                 for (Collidable other : level.getCollidable()) {
-                    if (c.hashCode() != other.hashCode() && c.getBounds().intersects(other.getBounds())) {
-                        c.onCollision(other);
+                    if (c.hashCode() != other.hashCode() && c.overlaps(other)) {
+                        c.resolveCollision(other);
                     }
                 }
             }

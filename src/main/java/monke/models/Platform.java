@@ -22,6 +22,7 @@ public class Platform extends GameObject implements Collidable {
     }
 
     @Override
-    public void onCollision(Collidable other) {
+    public void resolveCollision(Collidable c) {
+        //do nothing
     }
 }
