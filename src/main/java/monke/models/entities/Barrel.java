@@ -14,9 +14,10 @@ public class Barrel extends GameEntity {
     private int speed = -5;
 
     public Barrel(int x, int y) {
-        super(x, y, new BoundingBox(x, y, 16, 16));
-        this.applyForceX(speed);
+        super(x, y, new BoundingBox(x, y, 32, 32));
+        this.applyForceX(0);
         this.setDamping(1.01f);
+        speed = (x > 430) ? -speed : speed;
     }
 
     public void roll() {
@@ -33,6 +34,13 @@ public class Barrel extends GameEntity {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+    }
+
+    @Override
+    public void onCollisionCustom(Collidable other) {
+        if(other instanceof Player){
+            EventBus.publish(GameEvent.EXIT_GAME);
+        }
     }
 
     @Override
