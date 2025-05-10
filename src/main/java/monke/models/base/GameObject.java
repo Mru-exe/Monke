@@ -1,5 +1,6 @@
 package monke.models.base;
 import javafx.scene.Group;
+import monke.enums.SpriteImage;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,6 +16,7 @@ public abstract class GameObject {
     private final int id;
 
     private Group fxSprite;
+    protected SpriteImage img;
 
     protected double x;
     protected double y;
@@ -25,6 +27,8 @@ public abstract class GameObject {
                 cls -> new AtomicInteger(0)
         );
         this.id = counter.incrementAndGet();
+
+        this.img = SpriteImage.NOTEXTURE;
 
         this.x = x;
         this.y = y;
@@ -56,4 +60,7 @@ public abstract class GameObject {
         this.fxSprite = fxSprite;
     }
 
+    public SpriteImage getImg() {
+        return img;
+    }
 }
