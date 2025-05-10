@@ -50,7 +50,7 @@ public class LevelLoader {
 
         l.setPlayer(
                 //Default hitbox size is 10x10
-                new Player(level.player.x, level.player.y, 10, 10)
+                new Player(level.player.x, level.player.y)
         );
 //        l.setGoal(
 //                new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height)
