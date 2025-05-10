@@ -10,7 +10,7 @@ public enum Command {
     PLAYER_ATTACK,
     PLAYER_DROP,
     //GAME
-    GAME_PAUSE,
+    TOGGLE_PAUSE,
     GAME_RESUME,
     GAME_RESTART,
     GAME_QUIT,

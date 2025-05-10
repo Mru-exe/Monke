@@ -19,7 +19,7 @@ public class JavaFXInputAdapter {
             Map.entry(KeyCode.RIGHT,  Command.PLAYER_RIGHT),
             Map.entry(KeyCode.SPACE,  Command.PLAYER_JUMP),
             Map.entry(KeyCode.UP,     Command.PLAYER_JUMP),
-            Map.entry(KeyCode.ESCAPE, Command.GAME_QUIT)
+            Map.entry(KeyCode.ESCAPE, Command.TOGGLE_PAUSE)
     );
 
     public JavaFXInputAdapter(Scene scene, InputHandler core) {

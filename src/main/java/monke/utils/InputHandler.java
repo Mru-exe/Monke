@@ -1,6 +1,8 @@
 package monke.utils;
 
 import monke.enums.Command;
+import monke.enums.GameEvent;
+
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -16,6 +18,9 @@ public class InputHandler {
     }
 
     public synchronized void press(Command cmd) {
+        if(cmd == Command.TOGGLE_PAUSE) {
+            EventBus.publish(GameEvent.TOGGLE_PAUSE);
+        }
         pressed.add(cmd);
         logger.finest("Registerd: " + cmd);
     }
