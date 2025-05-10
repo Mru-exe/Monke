@@ -64,6 +64,7 @@ public class GameController {
     protected void resolveMovement() {
         if(inputHandler.isPressed(Command.PLAYER_LEFT)) player.applyForceX(-15-player.getDamping());
         if(inputHandler.isPressed(Command.PLAYER_RIGHT)) player.applyForceX(15+player.getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) player.applyForceX(0);
         if(inputHandler.isPressed(Command.PLAYER_JUMP)) {
             if(Math.abs(player.getVelY()) <= 0) {
                 player.applyForceY(-4.5*GameEntity.gravityStrength);
