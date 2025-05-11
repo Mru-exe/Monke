@@ -12,14 +12,14 @@ import monke.utils.EventBus;
  * The barrel can roll and explode.
  */
 public class Barrel extends GameEntity {
-    private int speed = -5;
+    private int speed = -7;
 
     public Barrel(int x, int y) {
-        super(x, y, new BoundingBox(x, y, 32, 32));
+        super(x, y, new BoundingBox(x, y, 48, 48));
         this.img = SpriteImage.BARREL;
-        this.applyForceX(0);
-        this.setDamping(1.01f);
-        speed = (x > 430) ? -speed : speed;
+        this.applyForceX(speed);
+        this.setDamping(1.02f);
+        speed = (x > 430) ? speed : -speed;
     }
 
     public void roll() {
