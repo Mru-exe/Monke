@@ -6,13 +6,16 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import monke.enums.SpriteImage;
+import monke.models.Platform;
 import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
+import org.w3c.dom.css.Rect;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,17 +76,23 @@ public class SpriteFactory {
         root.setTranslateY(go.getY());
         root.setStyle("-fx-background-color: #ffffff;");
         root.setAutoSizeChildren(true);
+
+
+        Rectangle rect = new Rectangle(0, 0, go.getImg().getWidth(), go.getImg().getHeight());
+        if (go instanceof Collidable collidable) {
+            BoundingBox bounds = collidable.getBounds();
+            rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight()); //adjust to hitbox
+            root.getChildren().add(rect);
+        }
+        rect.setFill(null);
+
+
         if (showDebug) {
+            rect.setStroke(Color.RED);
+            rect.setStrokeWidth(1);
+
             Collection<Node> debugElements = new ArrayList<>();
             try {
-                if (go instanceof Collidable collidable) {
-                    BoundingBox bounds = collidable.getBounds();
-                    Rectangle rect = new Rectangle(0, 0, bounds.getWidth(), bounds.getHeight());
-                    rect.setFill(null);
-                    rect.setStroke(Color.RED);
-                    rect.setStrokeWidth(1);
-                    debugElements.add(rect);
-                }
 
                 if (go instanceof GameEntity entity) {
                     Text coords = new Text();
@@ -113,14 +122,23 @@ public class SpriteFactory {
             root.getChildren().addAll(debugElements);
         }
 
-        ImageView img =  new ImageView(imageCache.get(go.getImg()));
-        img.setId("image");
+        if(go instanceof Platform){
+            Image tileImg = imageCache.get(go.getImg());
+            rect.setFill(new ImagePattern(tileImg, 0, 0,
+                    tileImg.getWidth(),
+                    tileImg.getHeight(),
+                    false));
+        } else {
+            ImageView img =  new ImageView(imageCache.get(go.getImg()));
+            img.setId("image");
+            img.setFitHeight(go.getImg().getHeight());
+            img.setFitWidth(go.getImg().getWidth());
 
-        if(go.getImg() == SpriteImage.BARREL){
-            img.rotateProperty().bind(root.translateXProperty().multiply(1.2f));
+            if(go.getImg() == SpriteImage.BARREL){
+                img.rotateProperty().bind(root.translateXProperty().multiply(1.5f));
+            }
+            root.getChildren().add(img);
         }
-
-        root.getChildren().add(img);
 
         go.setFxSprite(root);
     }
