@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * LevelLoader is responsible for loading levels from JSON files.
@@ -56,10 +57,10 @@ public class LevelLoader {
 //                new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height)
 //        );
         l.setMonkey(
-                new Monkey(level.monkey.x, level.monkey.y)
+                new Monkey(level.monkey.x, level.monkey.y, l.getBarrels())
         );
         l.setPlatforms(
-                new HashSet<>(Arrays.asList(level.platforms.stream()
+                new CopyOnWriteArraySet<>(Arrays.asList(level.platforms.stream()
                         .map(p -> new Platform(p.x, p.y, p.width, p.height))
                         .toArray(Platform[]::new)))
         );
