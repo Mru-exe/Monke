@@ -7,12 +7,16 @@ import monke.controllers.GameController;
 import monke.models.base.GameObject;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class GameView extends BaseView {
     private static final Logger logger = Logger.getLogger(GameView.class.getName());
 
     private final GameController gameController;
+
+    private final Set<Group> allSprites = new HashSet<>();
 
     private AnimationTimer renderingThread;
 
@@ -30,20 +34,28 @@ public class GameView extends BaseView {
      *
      * Repeated calls to this method will re-initialize the rendering thread.
      */
-    public void pushSprites(Collection<GameObject> objects){
+    public void initSprites(Collection<GameObject> objects){
         logger.info("Loading "+ objects.size() + " sprites");
         for (GameObject go : objects) {
             if(go.getFxSprite() != null) {
                 Group sprite = go.getFxSprite();
-                this.getBasePane().getChildren().add(sprite);
+                allSprites.add(sprite);
             }
         }
+        this.getBasePane().getChildren().clear();
+        this.getBasePane().getChildren().addAll(allSprites);
         renderingThread = new AnimationTimer() {
             @Override
             public void handle(long l) {
                 for (GameObject go : gameController.getLevel().getGameObjects()) {
+                    if(!allSprites.contains(go.getFxSprite())) {
+                        logger.info("New sprite: " + go.toString());
+                        allSprites.add(go.getFxSprite());
+                        getBasePane().getChildren().add(go.getFxSprite());
+                    }
                     Group fxSprite = go.getFxSprite();
                     if(fxSprite == null) {
+                        logger.warning("Sprite is null: " + go.toString());
                         continue;
                     }
                     fxSprite.setTranslateX(go.getX());
