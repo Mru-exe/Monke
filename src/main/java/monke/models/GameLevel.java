@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * GameLevel represents a collection of entities and static objects in the level.
@@ -19,14 +20,16 @@ public class GameLevel {
     //Entities
     private Player player;
     private Monkey monkey;
-    private Set<Barrel> barrels = new HashSet<>();
+    private CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
 
     //Objects
-    private Set<Platform> platforms;
+    private CopyOnWriteArraySet<Platform> platforms;
     private Goal goal;
 
     //Parameterless constructor to enforce setters
-    public GameLevel() {}
+    public GameLevel() {
+//        barrels.add(new Barrel(900, 0));
+    }
 
     //Setters
     public void setPlayer(Player player) {
@@ -35,7 +38,7 @@ public class GameLevel {
     public void setMonkey(Monkey monkey) {
         this.monkey = monkey;
     }
-    public void setPlatforms(Set<Platform> platforms) {
+    public void setPlatforms(CopyOnWriteArraySet<Platform> platforms) {
         this.platforms = platforms;
     }
     public void setGoal(Goal goal) {
@@ -54,8 +57,8 @@ public class GameLevel {
     }
 
     //Collection Getters
-    public Collection<GameObject> getGameObjects() {
-        Set<GameObject> gameObjects = new HashSet<>();
+    public CopyOnWriteArraySet<GameObject> getGameObjects() {
+        CopyOnWriteArraySet<GameObject> gameObjects = new CopyOnWriteArraySet<>();
         gameObjects.add(player);
         gameObjects.add(monkey);
         gameObjects.addAll(barrels);
@@ -63,22 +66,23 @@ public class GameLevel {
 //        gameObjects.add(goal);
         return gameObjects;
     }
-    public Collection<Updatable> getUpdatable() {
-        Set<Updatable> updatable = new HashSet<>();
+    public CopyOnWriteArraySet<Updatable> getUpdatable() {
+        CopyOnWriteArraySet<Updatable> updatable = new CopyOnWriteArraySet<>();
         updatable.add(player);
         updatable.addAll(barrels);
-//        updatable.add(monkey);
+        updatable.add(monkey);
         return updatable;
     }
-    public Collection<Collidable> getCollidable() {
-        Set<Collidable> collidable = new HashSet<>();
+    public CopyOnWriteArraySet<Collidable> getCollidable() {
+        CopyOnWriteArraySet<Collidable> collidable = new CopyOnWriteArraySet<>();
         collidable.add(player);
         collidable.addAll(barrels);
         collidable.addAll(platforms);
+        collidable.add(monkey);
 //        collidable.add(goal);
         return collidable;
     }
-    public Collection<Barrel> getBarrels() {
+    public CopyOnWriteArraySet<Barrel> getBarrels() {
         return barrels;
     }
 
@@ -88,8 +92,13 @@ public class GameLevel {
         } else if (go instanceof Platform) {
             platforms.remove(go);
         } else if (go instanceof Player) {
+            this.player = null;
             System.out.println("GG player died XD");
             EventBus.publish(monke.enums.GameEvent.EXIT_GAME);
+        }
+        else if (go instanceof Monkey) {
+            System.out.println("rip");
+            this.monkey = null;
         }
     }
 }
