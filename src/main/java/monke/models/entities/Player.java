@@ -5,14 +5,30 @@ import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
+import java.util.logging.Logger;
+
 /**
  * Represents a player in the game.
  */
 public class Player extends GameEntity{
+    private static final Logger logger = Logger.getLogger(Player.class.getName());
+    private Item activeItem;
 
     public Player(int x, int y) {
         super(x, y, new BoundingBox(x, y, 32, 32));
         this.img = SpriteImage.PLAYER;
+    }
+
+    public void pickupItem(Item item) {
+        if(this.activeItem == null){
+            this.activeItem = item;
+            logger.info("Player picked up item: " + item.getType());
+        }
+    }
+
+    public void dropItem() {
+        this.activeItem = null;
+        logger.info("Player dropped item");
     }
 
     @Override

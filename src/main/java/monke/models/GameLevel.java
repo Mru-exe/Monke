@@ -21,6 +21,7 @@ public class GameLevel {
     private Player player;
     private Monkey monkey;
     private CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
+    private CopyOnWriteArraySet<Item> items = new CopyOnWriteArraySet<>();
 
     //Objects
     private CopyOnWriteArraySet<Platform> platforms;
@@ -40,6 +41,9 @@ public class GameLevel {
     }
     public void setPlatforms(CopyOnWriteArraySet<Platform> platforms) {
         this.platforms = platforms;
+    }
+    public void setItems(CopyOnWriteArraySet<Item> items) {
+        this.items = items;
     }
     public void setGoal(Goal goal) {
         this.goal = goal;
@@ -84,6 +88,10 @@ public class GameLevel {
     }
     public CopyOnWriteArraySet<Barrel> getBarrels() {
         return barrels;
+    }
+
+    public CopyOnWriteArraySet<Item> getItems() {
+        return items;
     }
 
     public void destroyObject(GameObject go) {
