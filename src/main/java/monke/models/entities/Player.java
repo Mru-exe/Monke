@@ -12,22 +12,28 @@ import java.util.logging.Logger;
  */
 public class Player extends GameEntity{
     private static final Logger logger = Logger.getLogger(Player.class.getName());
-    private Item activeItem;
+    private GameItem activeGameItem;
 
     public Player(int x, int y) {
         super(x, y, new BoundingBox(x, y, 32, 32));
         this.img = SpriteImage.PLAYER;
     }
 
-    public void pickupItem(Item item) {
-        if(this.activeItem == null){
-            this.activeItem = item;
-            logger.info("Player picked up item: " + item.getType());
+    public GameItem getActiveItem() {
+        return activeGameItem;
+    }
+
+    private void pickupItem(GameItem gameItem) {
+        if(this.activeGameItem == null){
+            this.activeGameItem = gameItem;
+            logger.info("Player picked up item: " + gameItem.getType());
+        } else {
+            logger.fine("Cant pickup more than 1 items");
         }
     }
 
     public void dropItem() {
-        this.activeItem = null;
+        this.activeGameItem = null;
         logger.info("Player dropped item");
     }
 
