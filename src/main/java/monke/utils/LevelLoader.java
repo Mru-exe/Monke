@@ -7,6 +7,7 @@ import monke.MonkeyGame;
 import monke.models.GameLevel;
 import monke.models.Goal;
 import monke.models.Platform;
+import monke.models.entities.GameItem;
 import monke.models.entities.Monkey;
 import monke.models.entities.Player;
 
@@ -64,6 +65,11 @@ public class LevelLoader {
                         .map(p -> new Platform(p.x, p.y, p.width, p.height))
                         .toArray(Platform[]::new)))
         );
+        l.setItems(
+                new CopyOnWriteArraySet<>(Arrays.asList(level.items.stream()
+                        .map(i -> new GameItem(i.x, i.y, i.type))
+                        .toArray(GameItem[]::new)))
+        );
 
         return l;
     }
@@ -83,12 +89,20 @@ public class LevelLoader {
         @SerializedName("monkey")
         public Position monkey;
 
+        @SerializedName("items")
+        public List<Item> items;
+
         @SerializedName("platforms")
         public List<Platform> platforms;
 
         @SerializedName("goal")
         public Goal goal;
 
+        private static class Item {
+            public int x;
+            public int y;
+            public GameItem.ItemType type;
+        }
 
         private static class Position {
             public int x;

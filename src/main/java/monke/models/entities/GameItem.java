@@ -6,15 +6,15 @@ import monke.models.common.BoundingBox;
 /**
  * Represents an item (powerup) in the game.
  */
-public class Item extends GameEntity {
+public class GameItem extends GameEntity {
     public enum ItemType {
         HAMMER,
         KEY
-    };
+    }
 
-    private ItemType type;
+    private final ItemType type;
 
-    public Item(int x, int y, ItemType type) {
+    public GameItem(int x, int y, ItemType type) {
         super(x, y, new BoundingBox(x, y, 16, 16));
         this.type = type;
     }
