@@ -4,5 +4,7 @@ public enum GameEvent {
     EXIT_GAME,
     OPEN_MAIN_MENU,
     START_GAME,
-    TOGGLE_PAUSE
+    TOGGLE_PAUSE,
+    WIN,
+    DIE
 }
