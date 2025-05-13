@@ -17,7 +17,7 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
     private double velX = 0;
     private double velY = 0;
 
-    public static final double gravityStrength = 8.9d;
+    public static double gravityStrength = 8.9d;
     private double damping = 0.7d;
 
     public GameEntity(double x, double y, BoundingBox boundary) {
