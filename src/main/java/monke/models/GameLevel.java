@@ -1,9 +1,11 @@
 package monke.models;
 
+import monke.enums.GameEvent;
 import monke.models.base.GameObject;
 import monke.models.common.Collidable;
 import monke.models.common.Updatable;
 import monke.models.entities.*;
+import monke.utils.EventBus;
 
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -115,6 +117,9 @@ public class GameLevel {
         }
         if (go instanceof GoalKey) {
             this.getItems().remove(go);
+        }
+        if (go instanceof Player) {
+            EventBus.publish(GameEvent.DIE);
         }
     }
 }
