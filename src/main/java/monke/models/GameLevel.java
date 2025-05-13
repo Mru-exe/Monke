@@ -4,12 +4,7 @@ import monke.models.base.GameObject;
 import monke.models.common.Collidable;
 import monke.models.common.Updatable;
 import monke.models.entities.*;
-import monke.utils.EventBus;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
@@ -17,11 +12,15 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class GameLevel {
 
+    //Config
+    public static float jumpStrength;
+    public static float moveSpeed;
+
     //Entities
     private Player player;
     private Monkey monkey;
     private CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
-    private CopyOnWriteArraySet<GameItem> gameItems = new CopyOnWriteArraySet<>();
+    private CopyOnWriteArraySet<GoalKey> goalKeys = new CopyOnWriteArraySet<>();
 
     //Objects
     private CopyOnWriteArraySet<Platform> platforms;
@@ -42,8 +41,8 @@ public class GameLevel {
     public void setPlatforms(CopyOnWriteArraySet<Platform> platforms) {
         this.platforms = platforms;
     }
-    public void setItems(CopyOnWriteArraySet<GameItem> gameItems) {
-        this.gameItems = gameItems;
+    public void setGoalKeys(CopyOnWriteArraySet<GoalKey> goalKeys) {
+        this.goalKeys = goalKeys;
     }
     public void setGoal(Goal goal) {
         this.goal = goal;
@@ -67,25 +66,26 @@ public class GameLevel {
         gameObjects.add(monkey);
         gameObjects.addAll(barrels);
         gameObjects.addAll(platforms);
-        gameObjects.addAll(gameItems);
-//        gameObjects.add(goal);
+        gameObjects.addAll(goalKeys);
+        gameObjects.add(goal);
         return gameObjects;
     }
     public CopyOnWriteArraySet<Updatable> getUpdatable() {
         CopyOnWriteArraySet<Updatable> updatable = new CopyOnWriteArraySet<>();
-        updatable.add(player);
-        updatable.addAll(barrels);
-        updatable.add(monkey);
+        for (GameObject go : getGameObjects()) {
+            if (go instanceof Updatable) {
+                updatable.add((Updatable) go);
+            }
+        }
         return updatable;
     }
     public CopyOnWriteArraySet<Collidable> getCollidable() {
         CopyOnWriteArraySet<Collidable> collidable = new CopyOnWriteArraySet<>();
-        collidable.add(player);
-        collidable.addAll(barrels);
-        collidable.addAll(platforms);
-        collidable.add(monkey);
-        collidable.addAll(gameItems);
-//        collidable.add(goal);
+        for (GameObject go : getGameObjects()) {
+            if (go instanceof Collidable) {
+                collidable.add((Collidable) go);
+            }
+        }
         return collidable;
     }
     public CopyOnWriteArraySet<Barrel> getBarrels() {
@@ -95,23 +95,26 @@ public class GameLevel {
         return platforms;
     }
 
-    public CopyOnWriteArraySet<GameItem> getItems() {
-        return gameItems;
+    public CopyOnWriteArraySet<GoalKey> getItems() {
+        return goalKeys;
     }
 
     public void destroyObject(GameObject go) {
-        if (go instanceof Barrel) {
-            barrels.remove(go);
-        } else if (go instanceof Platform) {
-            platforms.remove(go);
-        } else if (go instanceof Player) {
-            this.player = null;
-            System.out.println("GG player died XD");
-            EventBus.publish(monke.enums.GameEvent.EXIT_GAME);
+        this.getGameObjects().remove(go);
+        if (go instanceof Updatable) {
+            this.getUpdatable().remove(go);
         }
-        else if (go instanceof Monkey) {
-            System.out.println("rip");
-            this.monkey = null;
+        if (go instanceof Collidable) {
+            this.getCollidable().remove(go);
+        }
+        if (go instanceof Barrel) {
+            this.getBarrels().remove(go);
+        }
+        if (go instanceof Platform) {
+            this.getPlatforms().remove(go);
+        }
+        if (go instanceof GoalKey) {
+            this.getItems().remove(go);
         }
     }
 }

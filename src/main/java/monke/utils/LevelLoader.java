@@ -7,21 +7,19 @@ import monke.MonkeyGame;
 import monke.models.GameLevel;
 import monke.models.Goal;
 import monke.models.Platform;
-import monke.models.entities.GameItem;
+import monke.models.base.GameEntity;
+import monke.models.entities.GoalKey;
 import monke.models.entities.Monkey;
 import monke.models.entities.Player;
 
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * LevelLoader is responsible for loading levels from JSON files.
  * It deserializes the level data and returns a Level object.
- * TODO: Goal and Monkey
  */
 public class LevelLoader {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -50,13 +48,17 @@ public class LevelLoader {
     private static GameLevel convertToPlayable(JsonLevel level) {
         GameLevel l = new GameLevel();
 
+        GameLevel.moveSpeed = level.moveSpeed;
+        GameLevel.jumpStrength = level.jumpStrength;
+        GameEntity.gravityStrength = level.gravityStrength;
+
         l.setPlayer(
                 //Default hitbox size is 10x10
                 new Player(level.player.x, level.player.y)
         );
-//        l.setGoal(
-//                new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height)
-//        );
+        l.setGoal(
+                new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height, level.keys.size())
+        );
         l.setMonkey(
                 new Monkey(level.monkey.x, level.monkey.y, l.getBarrels())
         );
@@ -65,10 +67,10 @@ public class LevelLoader {
                         .map(p -> new Platform(p.x, p.y, p.width, p.height))
                         .toArray(Platform[]::new)))
         );
-        l.setItems(
-                new CopyOnWriteArraySet<>(Arrays.asList(level.items.stream()
-                        .map(i -> new GameItem(i.x, i.y, i.type))
-                        .toArray(GameItem[]::new)))
+        l.setGoalKeys(
+                new CopyOnWriteArraySet<>(Arrays.asList(level.keys.stream()
+                        .map(i -> new GoalKey(i.x, i.y))
+                        .toArray(GoalKey[]::new)))
         );
 
         return l;
@@ -89,8 +91,8 @@ public class LevelLoader {
         @SerializedName("monkey")
         public Position monkey;
 
-        @SerializedName("items")
-        public List<Item> items;
+        @SerializedName("keys")
+        public List<Position> keys;
 
         @SerializedName("platforms")
         public List<Platform> platforms;
@@ -98,11 +100,12 @@ public class LevelLoader {
         @SerializedName("goal")
         public Goal goal;
 
-        private static class Item {
-            public int x;
-            public int y;
-            public GameItem.ItemType type;
-        }
+        @SerializedName("move_speed")
+        public float moveSpeed = 16;
+        @SerializedName("jump_strength")
+        public float jumpStrength = 5;
+        @SerializedName("gravity_strength")
+        public float gravityStrength = 8.9f;
 
         private static class Position {
             public int x;
