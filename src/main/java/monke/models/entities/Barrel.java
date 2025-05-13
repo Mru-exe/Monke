@@ -12,14 +12,13 @@ import monke.utils.EventBus;
  * The barrel can roll and explode.
  */
 public class Barrel extends GameEntity {
-    private int speed = -7;
+    private double speed;
 
-    public Barrel(int x, int y) {
+    public Barrel(int x, int y, double speed) {
         super(x, y, new BoundingBox(x, y, 48, 48));
+        this.speed = speed;
         this.img = SpriteImage.BARREL;
-        this.applyForceX(speed);
         this.setDamping(1.02f);
-        speed = (x > 430) ? speed : -speed;
     }
 
     public void roll() {
@@ -30,11 +29,11 @@ public class Barrel extends GameEntity {
         // Logic to explode the barrel
     }
 
-    public int getSpeed() {
+    public double getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(double speed) {
         this.speed = speed;
     }
 
@@ -46,16 +45,9 @@ public class Barrel extends GameEntity {
     }
 
     @Override
-    public void resolveHorizontalCollision(double dx, double overlapX) {
-        double shiftX = dx > 0 ? overlapX : -overlapX;
-        this.setCoords(this.getX() + shiftX, this.getY());
-//        this.applyForceX(0);
-    }
-
-    @Override
     public void resolveVerticalCollision(double dy, double overlapY) {
         if(this.getVelY() >= gravityStrength){
-            this.setSpeed(-speed);
+            if(Math.random() > 0.35 && this.getVelX() != 0) this.setSpeed(-speed);
             this.applyForceX(speed);
         }
         //check if this is the initial collision (first call)
