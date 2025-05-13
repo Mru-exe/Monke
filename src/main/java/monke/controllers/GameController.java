@@ -1,6 +1,7 @@
 package monke.controllers;
 
 
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import monke.enums.Command;
 import monke.enums.GameEvent;
@@ -62,6 +63,21 @@ public class GameController {
                 logicThread.unpause();
             } else {
                 logicThread.pause();
+            }
+        });
+
+        EventBus.subscribe(GameEvent.DIE, () -> {
+            logicThread.stop();
+            view.stopRenderingThread();
+            Platform.runLater( () -> EventBus.publish(GameEvent.OPEN_MAIN_MENU));
+            System.out.println("YOU LOSE");
+        });
+        EventBus.subscribe(GameEvent.WIN, () -> {
+            if(logicThread.isRunning()){
+                logicThread.stop();
+                view.stopRenderingThread();
+                Platform.runLater( () -> EventBus.publish(GameEvent.OPEN_MAIN_MENU));
+                System.out.println("YOU WIN");
             }
         });
 
