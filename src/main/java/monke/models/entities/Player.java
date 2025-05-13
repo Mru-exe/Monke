@@ -3,8 +3,9 @@ package monke.models.entities;
 import monke.enums.SpriteImage;
 import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
-import monke.models.common.Collidable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -12,36 +13,20 @@ import java.util.logging.Logger;
  */
 public class Player extends GameEntity{
     private static final Logger logger = Logger.getLogger(Player.class.getName());
-    private GameItem activeGameItem;
+    private final List<GoalKey> inventory = new ArrayList<>();
 
     public Player(int x, int y) {
         super(x, y, new BoundingBox(x, y, 32, 32));
         this.img = SpriteImage.PLAYER;
     }
 
-    public GameItem getActiveItem() {
-        return activeGameItem;
+    public int getKeyAmount() {
+        return this.inventory.size();
     }
 
-    private void pickupItem(GameItem gameItem) {
-        if(this.activeGameItem == null){
-            this.activeGameItem = gameItem;
-            logger.info("Player picked up item: " + gameItem.getType());
-        } else {
-            logger.fine("Cant pickup more than 1 items");
-        }
-    }
-
-    public void dropItem() {
-        this.activeGameItem = null;
-        logger.info("Player dropped item");
-    }
-
-    @Override
-    public void onCollisionCustom(Collidable other) {
-        if(other instanceof Barrel){
-            //lose game
-        }
+    public void pickupKey(GoalKey goalKey) {
+        this.inventory.add(goalKey);
+        logger.info("Player picked up item: " + goalKey.toString());
     }
 
     @Override
