@@ -24,17 +24,4 @@ public class MainMenu extends BaseView {
 
         this.setRoot(root);
     }
-
-    private void loadFont(String fileName){
-        logger.finer("Loading font: " + fileName);
-        try (InputStream fontStream = getClass().getResourceAsStream("/" + fileName)) {
-            if (fontStream == null) {
-                logger.warning("Font file not found: " + fileName);
-                throw new IOException("Font file not found: " + fileName);
-            }
-            Font.loadFont(fontStream, 12);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

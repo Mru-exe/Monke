@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import monke.utils.EventBus;
 import monke.enums.GameEvent;
 
@@ -46,7 +47,20 @@ public abstract class BaseView extends Scene {
         return new StackPane();
     }
 
-    public InputStream getResourceStream(String s){
+    protected void loadFont(String fileName){
+        logger.finer("Loading font: " + fileName);
+        try (InputStream fontStream = getClass().getResourceAsStream("/" + fileName)) {
+            if (fontStream == null) {
+                logger.warning("Font file not found: " + fileName);
+                throw new IOException("Font file not found: " + fileName);
+            }
+            Font.loadFont(fontStream, 12);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected InputStream getResourceStream(String s){
         try {
             InputStream o = getClass().getResourceAsStream(s);
             return o;
