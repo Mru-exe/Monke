@@ -3,12 +3,14 @@ package monke.controllers;
 
 import javafx.scene.Scene;
 import monke.enums.Command;
+import monke.enums.GameEvent;
 import monke.models.GameLevel;
 import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.Collidable;
 import monke.models.common.Updatable;
-import monke.models.entities.Player;
+import monke.models.entities.Barrel;
+import monke.models.entities.GoalKey;
 import monke.utils.*;
 import monke.views.GameView;
 
@@ -16,7 +18,7 @@ import java.util.logging.Logger;
 
 public class GameController {
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
-    private final SpriteFactory sf = new SpriteFactory(true);
+    private final SpriteFactory sf = new SpriteFactory(false);
 
     protected final InputHandler inputHandler = new InputHandler();
 
@@ -24,24 +26,22 @@ public class GameController {
         @Override
         protected void process(double dt) {
             inputHandler.update();
-            resolveMovement();
+            resolveControls();
 
+            //Update all updatable entities
             for (Updatable u : level.getUpdatable()) {
                 u.update(dt);
             }
-            for (Collidable c : level.getCollidable()) {
-                for (Collidable other : level.getCollidable()) {
-                    if (c.hashCode() != other.hashCode() && c.overlaps(other)) {
-                        c.resolveCollision(other);
-                    }
-                }
-            }
+
+            //Check for collisions
+            checkCollisions();
+
+            if(level.getPlayer().overlaps(level.getGoal())) level.getGoal().unlock(level.getPlayer());
         }
     };
 
     private final GameLevel level;
     private final GameView view;
-    private final Player player;
 
     public GameController(GameLevel level) {
         this.view = new GameView(this);
@@ -51,23 +51,58 @@ public class GameController {
         for (GameObject go : level.getGameObjects()) {
             sf.applySpriteToModel(go);
         }
-        this.player = level.getPlayer();
 
-        view.pushSprites(level.getGameObjects());
+        view.initSprites(level.getGameObjects());
 
         new JavaFXInputAdapter(view.getRoot().getScene(), inputHandler);
 
-        view.startRenderingThread();
+        EventBus.subscribe(GameEvent.TOGGLE_PAUSE, () -> {
+            logger.finer("Toggling pause");
+            if (logicThread.isPaused()) {
+                logicThread.unpause();
+            } else {
+                logicThread.pause();
+            }
+        });
+
         this.logicThread.start();
+        view.startRenderingThread();
     }
 
-    protected void resolveMovement() {
-        if(inputHandler.isPressed(Command.PLAYER_LEFT)) player.applyForceX(-15-player.getDamping());
-        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) player.applyForceX(15+player.getDamping());
-        if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) player.applyForceX(0);
+    protected void resolveControls() {
+        if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().applyForceX(-level.moveSpeed-level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(level.moveSpeed+level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(0);
         if(inputHandler.isPressed(Command.PLAYER_JUMP)) {
-            if(Math.abs(player.getVelY()) <= 0) {
-                player.applyForceY(-4.5*GameEntity.gravityStrength);
+            if(Math.abs(level.getPlayer().getVelY()) <= 0) {
+                level.getPlayer().applyForceY(-level.jumpStrength*GameEntity.gravityStrength);
+            }
+        }
+    }
+
+    private void checkCollisions(){
+        //Surface collisions
+        for (Collidable c : level.getCollidable()) {
+            for (Collidable other : (level.getPlatforms())) {
+                if(c == null || other == null) continue;
+                if (c.hashCode() != other.hashCode() && c.overlaps(other)) {
+                    c.resolveCollision(other);
+                }
+            }
+        }
+        //Key collisions
+        for(GoalKey key : level.getItems()){
+            if(level.getPlayer().overlaps(key)){
+                logger.info("Player collided with item");
+                level.getPlayer().pickupKey(key);
+                view.removeSprite(key);
+                level.destroyObject(key);
+            }
+        }
+        //Player/Barrel collisions
+        for(Barrel barrel : level.getBarrels()){
+            if(level.getPlayer().overlaps(barrel)){
+                EventBus.publish(GameEvent.DIE);
             }
         }
     }
