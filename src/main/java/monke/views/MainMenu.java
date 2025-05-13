@@ -1,11 +1,7 @@
 package monke.views;
 
 import javafx.scene.Parent;
-import javafx.scene.text.Font;
 import monke.controllers.MainMenuController;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 import java.util.logging.Logger;
 
