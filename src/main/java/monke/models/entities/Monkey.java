@@ -16,20 +16,30 @@ import java.util.logging.Logger;
  */
 public class Monkey extends GameEntity{
     private static final Logger logger = Logger.getLogger(Monkey.class.getName());
-    private Set<Barrel> barrels = new CopyOnWriteArraySet<>();
+    private final CopyOnWriteArraySet<Barrel> barrels;
 
     private SpriteFactory sf = new SpriteFactory();
 
-    private double cooldown = 10d;
+    private final int direction;
 
-    public Monkey(double x, double y, Set<Barrel> barrelSet) {
+    private double cooldown;
+    private int specialCounter = 3;
+
+    public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet) {
         super(x, y, new BoundingBox(x, y, 64, 64));
+        this.direction = x > 500 ? -1 : 1;
         this.img = SpriteImage.MONKEY;
         this.barrels = barrelSet;
     }
 
     private void spawnBarrel() {
-        Barrel barrel = new Barrel((int) x-64, (int) y);
+        specialCounter--;
+        Barrel barrel = new Barrel((int) x, (int) y, direction*7);
+        if(specialCounter <= 0){
+//            barrel.setDamping(1.01f);
+            specialCounter = 3;
+            barrel.setSpeed(2.5f*barrel.getSpeed());
+        }
         sf.applySpriteToModel(barrel);
         barrels.add(barrel);
     }
@@ -40,15 +50,12 @@ public class Monkey extends GameEntity{
         cooldown -= dt;
         if(cooldown <= 0){
             spawnBarrel();
-            cooldown = 10d;
+            cooldown = 20d;
         }
     }
 
     @Override
     public void resolveHorizontalCollision(double dx, double overlapX) {
-        double shiftX = dx > 0 ? overlapX : -overlapX;
-        this.setCoords(this.getX() + shiftX, this.getY());
-        this.applyForceX(0);
     }
 
     @Override
