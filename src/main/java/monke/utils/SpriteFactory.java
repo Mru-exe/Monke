@@ -15,7 +15,6 @@ import monke.models.base.GameEntity;
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
-import org.w3c.dom.css.Rect;
 
 import java.io.InputStream;
 import java.util.ArrayList;
