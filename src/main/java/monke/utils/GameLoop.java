@@ -16,6 +16,14 @@ public abstract class GameLoop implements Runnable {
     private Thread currentThread;
     private volatile boolean isRunning = false;
 
+    // Pause control
+    private final Object pauseLock = new Object();
+    private volatile boolean paused = false;
+
+    public boolean isPaused() {
+        return paused;
+    }
+
     /**
      * Starts the game loop in a separate thread
      */
@@ -24,6 +32,26 @@ public abstract class GameLoop implements Runnable {
             isRunning = true;
             currentThread = new Thread(this);
             currentThread.start();
+        }
+    }
+
+    /**
+     * Pauses the game loop in a thread-safe manner
+     */
+    public void pause() {
+        logger.info("PAUSING");
+        paused = true;
+    }
+
+    /**
+     * Unpauses the game loop and notifies the running thread
+     */
+    public void unpause() {
+        logger.info("UNPAUSING");
+        synchronized (pauseLock) {
+            paused = false;
+            lastTime = System.nanoTime();
+            pauseLock.notifyAll();
         }
     }
 
@@ -48,6 +76,12 @@ public abstract class GameLoop implements Runnable {
     public void run() {
         while (isRunning) {
             try {
+                // Handle pause
+                synchronized (pauseLock) {
+                    while (paused) {
+                        pauseLock.wait();
+                    }
+                }
                 long now = System.nanoTime();
                 if(now - lastTime >= TARGET_TIME){
                     double dt = TARGET_TIME / 1_000_000_00.0; //KEEP THIS LINE
