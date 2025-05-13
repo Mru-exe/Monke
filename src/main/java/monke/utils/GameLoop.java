@@ -60,13 +60,13 @@ public abstract class GameLoop implements Runnable {
      */
     public void stop() {
         isRunning = false;
-        if (currentThread != null) {
-            try {
-                currentThread.join();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
+//        if (currentThread != null) {
+//            try {
+//                currentThread.join();
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+//        }
     }
 
     /**
@@ -96,6 +96,10 @@ public abstract class GameLoop implements Runnable {
                 logger.severe("Game loop interrupted: " + e.getMessage());
             }
         }
+    }
+
+    public boolean isRunning(){
+        return this.isRunning;
     }
 
     /**
