@@ -1,5 +1,6 @@
 package monke.models;
 
+import monke.enums.SpriteImage;
 import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
@@ -15,14 +16,10 @@ public class Platform extends GameObject implements Collidable {
     public Platform(int x, int y, int width, int height) {
         super(x, y);
         this.boundary = new BoundingBox(x, y, width, height);
+        this.img = SpriteImage.PLATFORM;
     }
 
     public BoundingBox getBounds() {
         return boundary;
-    }
-
-    @Override
-    public void resolveCollision(Collidable c) {
-        //do nothing
     }
 }
