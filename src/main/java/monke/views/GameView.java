@@ -5,10 +5,9 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import monke.controllers.GameController;
 import monke.models.base.GameObject;
+import monke.models.entities.Player;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class GameView extends BaseView {
@@ -17,6 +16,7 @@ public class GameView extends BaseView {
     private final GameController gameController;
 
     private final Set<Group> allSprites = new HashSet<>();
+    private Queue<GameObject> destroyQueue = new LinkedList<>();
 
     private AnimationTimer renderingThread;
 
@@ -49,7 +49,7 @@ public class GameView extends BaseView {
             public void handle(long l) {
                 for (GameObject go : gameController.getLevel().getGameObjects()) {
                     if(!allSprites.contains(go.getFxSprite())) {
-                        logger.info("New sprite: " + go.toString());
+                        logger.finer("New sprite: " + go.toString());
                         allSprites.add(go.getFxSprite());
                         getBasePane().getChildren().add(go.getFxSprite());
                     }
@@ -74,8 +74,21 @@ public class GameView extends BaseView {
         if(absX > 1.5*this.getWidth() || absY > 1.5*this.getHeight() || absX < 0 || absY < 0){
             this.getBasePane().getChildren().remove(sprite);
             gameController.getLevel().destroyObject(go);
-            logger.info("Killed sprite: " + go.toString());
+            logger.fine("Killed sprite: " + go.toString());
         }
+        //remove all sprites in destroy queue
+        while(!destroyQueue.isEmpty()){
+            GameObject goToDestroy = destroyQueue.poll();
+            if(goToDestroy.getFxSprite() != null) {
+                allSprites.remove(goToDestroy.getFxSprite());
+                this.getBasePane().getChildren().remove(goToDestroy.getFxSprite());
+                logger.fine("Removed sprite: " + goToDestroy.toString());
+            }
+        }
+    }
+
+    public void removeSprite(GameObject go){
+        this.destroyQueue.add(go);
     }
 
     public void startRenderingThread(){
