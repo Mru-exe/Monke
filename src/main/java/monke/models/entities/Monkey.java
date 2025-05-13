@@ -5,7 +5,6 @@ import monke.models.base.GameEntity;
 import monke.models.common.BoundingBox;
 import monke.utils.SpriteFactory;
 
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Logger;
 
@@ -22,11 +21,13 @@ public class Monkey extends GameEntity{
 
     private final int direction;
 
+    private double currentCooldown;
     private double cooldown;
     private int specialCounter = 3;
 
-    public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet) {
+    public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet, double cooldown) {
         super(x, y, new BoundingBox(x, y, 64, 64));
+        this.cooldown = cooldown;
         this.direction = x > 500 ? -1 : 1;
         this.img = SpriteImage.MONKEY;
         this.barrels = barrelSet;
@@ -47,10 +48,10 @@ public class Monkey extends GameEntity{
     @Override
     public void update(double dt) {
         super.update(dt);
-        cooldown -= dt;
-        if(cooldown <= 0){
+        currentCooldown -= dt;
+        if(currentCooldown <= 0){
             spawnBarrel();
-            cooldown = 20d;
+            currentCooldown = cooldown;
         }
     }
 

@@ -60,7 +60,7 @@ public class LevelLoader {
                 new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height, level.keys.size())
         );
         l.setMonkey(
-                new Monkey(level.monkey.x, level.monkey.y, l.getBarrels())
+                new Monkey(level.monkey.x, level.monkey.y, l.getBarrels(), level.monkeyCooldown)
         );
         l.setPlatforms(
                 new CopyOnWriteArraySet<>(Arrays.asList(level.platforms.stream()
@@ -106,6 +106,8 @@ public class LevelLoader {
         public float jumpStrength = 5;
         @SerializedName("gravity_strength")
         public float gravityStrength = 8.9f;
+        @SerializedName("monkey_cooldown")
+        public float monkeyCooldown = 1.5f;
 
         private static class Position {
             public int x;
