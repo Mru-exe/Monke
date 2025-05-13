@@ -5,7 +5,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import monke.controllers.GameController;
 import monke.models.base.GameObject;
-import monke.models.entities.Player;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -94,7 +93,7 @@ public class GameView extends BaseView {
     public void startRenderingThread(){
         renderingThread.start();
     }
-    public void pauseRenderingThread(){
+    public void stopRenderingThread(){
         renderingThread.stop();
     }
 }
