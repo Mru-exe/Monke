@@ -1,3 +1,17 @@
-#exitButton{
-    -fx-background-color: red;
+.btn{
+    -fx-pref-width: 512px;
+    -fx-pref-height: 32px;
+    -fx-border-radius: 8px;
+    -fx-background-color: #CFCFCF;
+    -fx-font-size: 16px;
+    -fx-text-alignment: center;
+}
+.btn:hover{
+    -fx-background-color: #AFAFAF;
+}
+
+.lbl{
+    /*-fx-text-fill: #242424;*/
+    -fx-text-fill: #F0F0F0;
+    -fx-effect: dropshadow( one-pass-box , black , 1 , 0 , 0 , 0 );
 }
