@@ -20,9 +20,7 @@ public class EndgameController {
                 view.setLabelMessage("YOU WIN!");
                 view.hideNodeById("restart");
             }
-            case LOSE -> {
-                view.setLabelMessage("GAME OVER!");
-            }
+            case LOSE -> view.setLabelMessage("GAME OVER!");
         }
     }
 
