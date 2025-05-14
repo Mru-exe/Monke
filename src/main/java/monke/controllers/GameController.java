@@ -80,12 +80,12 @@ public class GameController {
     }
 
     protected void resolveControls() {
-        if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().applyForceX(-level.moveSpeed-level.getPlayer().getDamping());
-        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(level.moveSpeed+level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().applyForceX(-GameLevel.moveSpeed -level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(GameLevel.moveSpeed +level.getPlayer().getDamping());
         if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(0);
         if(inputHandler.isPressed(Command.PLAYER_JUMP)) {
             if(Math.abs(level.getPlayer().getVelY()) <= 0) {
-                level.getPlayer().applyForceY(-level.jumpStrength*GameEntity.gravityStrength);
+                level.getPlayer().applyForceY(-GameLevel.jumpStrength *GameEntity.gravityStrength);
             }
         }
     }
