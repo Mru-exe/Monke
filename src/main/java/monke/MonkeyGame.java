@@ -5,6 +5,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 
 import javafx.stage.StageStyle;
+import monke.controllers.EndgameController;
 import monke.controllers.MainMenuController;
 import monke.utils.EventBus;
 import monke.controllers.GameController;
@@ -37,6 +38,8 @@ public class MonkeyGame extends Application {
         EventBus.subscribe(GameEvent.EXIT_GAME, this::stop);
         EventBus.subscribe(GameEvent.OPEN_MAIN_MENU, this::openMenu);
         EventBus.subscribe(GameEvent.START_GAME, this::startGame);
+        EventBus.subscribe(GameEvent.DIE, () -> this.endGame(EndgameController.EndgameType.LOSE));
+        EventBus.subscribe(GameEvent.WIN, () -> this.endGame(EndgameController.EndgameType.WIN));
     }
 
     public static void main(String[] args) {
@@ -75,6 +78,15 @@ public class MonkeyGame extends Application {
     private void startGame(){
         GameLevel level = LevelLoader.loadLevel("default-level.json");
         GameController controller = new GameController(level);
-        this.primaryStage.setScene(controller.getView());
+        Platform.runLater(() -> {
+            this.primaryStage.setScene(controller.getView());
+        });
+    }
+
+    private void endGame(EndgameController.EndgameType type){
+        EndgameController controller = new EndgameController(type);
+        Platform.runLater(() -> {
+            this.primaryStage.setScene(controller.getView());
+        });
     }
 }
