@@ -5,13 +5,11 @@ import javafx.scene.input.KeyCode;
 import monke.enums.Command;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * JavaFX bridge: glues Scene key events to the core InputHandler.
  */
 public class JavaFXInputAdapter {
-    private final InputHandler core;
     private final Map<KeyCode,Command> bindings = Map.ofEntries(
             Map.entry(KeyCode.A,      Command.PLAYER_LEFT),
             Map.entry(KeyCode.LEFT,   Command.PLAYER_LEFT),
@@ -23,7 +21,6 @@ public class JavaFXInputAdapter {
     );
 
     public JavaFXInputAdapter(Scene scene, InputHandler core) {
-        this.core = core;
         scene.setOnKeyPressed(e -> {
             Command cmd = bindings.get(e.getCode());
             if (cmd != null){
