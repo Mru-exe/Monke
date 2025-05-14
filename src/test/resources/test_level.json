@@ -1,0 +1,11 @@
+{
+  "player": {"x": 1, "y": 2},
+  "monkey": {"x": 3, "y": 4},
+  "keys": [{"x": 5, "y": 6}, {"x": 7, "y": 8}],
+  "platforms": [{"x": 9, "y": 10, "width": 11, "height": 12}],
+  "goal": {"x": 13, "y": 14, "width": 15, "height": 16},
+  "move_speed": 20.0,
+  "jump_strength": 7.0,
+  "gravity_strength": 9.8,
+  "monkey_cooldown": 2.5
+}
