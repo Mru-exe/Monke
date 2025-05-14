@@ -16,11 +16,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 public abstract class BaseView extends Scene {
-    private static final Logger logger = Logger.getLogger(GameView.class.getName());
-
-    private FXMLLoader loader = new FXMLLoader(getClass().getResource("MyView.fxml"));
-
-    private Pane basePane = new Pane();
+    private static final Logger logger = Logger.getLogger(BaseView.class.getName());
 
     public BaseView(){
         super(new BorderPane(), 1520, 855);
@@ -42,7 +38,7 @@ public abstract class BaseView extends Scene {
             fxmlLoader.setController(controller);
             return fxmlLoader.load();
         } catch (Exception e){
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
         return new StackPane();
     }
@@ -56,17 +52,16 @@ public abstract class BaseView extends Scene {
             }
             Font.loadFont(fontStream, 12);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe(e.getMessage());
         }
     }
 
     protected InputStream getResourceStream(String s){
         try {
-            InputStream o = getClass().getResourceAsStream(s);
-            return o;
+            return getClass().getResourceAsStream(s);
         } catch (Exception e){
             logger.warning("Resource not found: " + s);
-            e.printStackTrace();
+            logger.severe(e.getMessage());
             EventBus.publish(GameEvent.OPEN_MAIN_MENU);
         }
         return null;

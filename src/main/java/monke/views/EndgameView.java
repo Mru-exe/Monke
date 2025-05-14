@@ -8,12 +8,10 @@ import monke.controllers.EndgameController;
 import java.util.logging.Logger;
 
 public class EndgameView extends BaseView {
-    private static final Logger logger = Logger.getLogger(MainMenu.class.getName());
-    private final EndgameController controller;
+    private static final Logger logger = Logger.getLogger(EndgameView.class.getName());
 
     public EndgameView(EndgameController controller) {
         super();
-        this.controller = controller;
 
         this.getStylesheets().add(getClass().getResource("/css/main.css").toExternalForm());
 
@@ -24,7 +22,7 @@ public class EndgameView extends BaseView {
     }
 
     public void setLabelMessage(String text) {
-        Label label = (Label) this.getRoot().lookup("#messageLabel");
+        Label label = (Label) this.getRoot().lookup("#messageLabe");
         if (label != null) {
             label.setText(text);
         } else {

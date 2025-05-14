@@ -7,11 +7,9 @@ import java.util.logging.Logger;
 
 public class MainMenu extends BaseView {
     private static final Logger logger = Logger.getLogger(MainMenu.class.getName()+"View");
-    private final MainMenuController controller;
 
     public MainMenu(MainMenuController controller) {
         super();
-        this.controller = controller;
 
         this.getStylesheets().add(getClass().getResource("/css/main.css").toExternalForm());
 
