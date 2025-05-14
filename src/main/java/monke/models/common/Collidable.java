@@ -28,6 +28,9 @@ public interface Collidable {
      * @return true if they are overlapping, false otherwise
      */
     static boolean areOverlapping(Collidable c1, Collidable c2) {
+        if(c1 == null || c2 == null) {
+            return false;
+        }
         BoundingBox b1 = c1.getBounds();
         BoundingBox b2 = c2.getBounds();
 
@@ -56,6 +59,9 @@ public interface Collidable {
      * @see #resolveVerticalCollision(double, double)
      */
     default void resolveCollision(Collidable c) {
+        if(c == null) {
+            return;
+        }
         BoundingBox self = this.getBounds();
         BoundingBox other = c.getBounds();
 
