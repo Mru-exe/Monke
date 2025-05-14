@@ -8,12 +8,11 @@ import java.util.logging.Logger;
 public abstract class GameLoop implements Runnable {
     private static final Logger logger = Logger.getLogger(GameLoop.class.getName());
 
-    private final int TARGET_FPS = 60;
-    private final double TARGET_TIME = 1_000_000_000.0 / TARGET_FPS;
+    protected final int TARGET_FPS = 60;
+    protected final double TARGET_TIME = 1_000_000_000.0 / TARGET_FPS;
 
     private double lastTime = System.nanoTime();
 
-    private Thread currentThread;
     private volatile boolean isRunning = false;
 
     // Pause control
@@ -30,7 +29,7 @@ public abstract class GameLoop implements Runnable {
     public void start() {
         if (!isRunning) {
             isRunning = true;
-            currentThread = new Thread(this);
+            Thread currentThread = new Thread(this);
             currentThread.start();
         }
     }
