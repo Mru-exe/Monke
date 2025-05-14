@@ -7,7 +7,7 @@ import monke.models.common.Updatable;
 import java.util.logging.Logger;
 
 /**
- * Abstract class representing a game entity that can be rendered and has collision detection capabilities.
+ * Abstract class representing a game entity that can be updated and has collision detection capabilities.
  */
 public abstract class GameEntity extends GameObject implements Collidable, Updatable {
     private static final Logger logger = Logger.getLogger(GameEntity.class.getName());
@@ -48,17 +48,16 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
         return velX;
     }
 
-    public void applyForceX(double velX) {
+    public void setVelX(double velX) {
         this.velX = velX;
     }
-    public void applyForceY(double velY) {
+    public void setVelY(double velY) {
         this.velY = velY;
     }
 
-    public void setDamping(double frictionStrength) {
-        this.damping = frictionStrength;
+    public void setDamping(double damping) {
+        this.damping = damping;
     }
-
     public double getDamping() {
         return this.damping;
     }
