@@ -17,12 +17,12 @@ public class Monkey extends GameEntity{
     private static final Logger logger = Logger.getLogger(Monkey.class.getName());
     private final CopyOnWriteArraySet<Barrel> barrels;
 
-    private SpriteFactory sf = new SpriteFactory();
+    private final SpriteFactory sf = new SpriteFactory();
 
     private final int direction;
 
     private double currentCooldown;
-    private double cooldown;
+    private final double cooldown;
     private int specialCounter = 3;
 
     public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet, double cooldown) {
