@@ -21,7 +21,7 @@ public class GameLevel {
     //Entities
     private Player player;
     private Monkey monkey;
-    private CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
+    private final CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
     private CopyOnWriteArraySet<GoalKey> goalKeys = new CopyOnWriteArraySet<>();
 
     //Objects
