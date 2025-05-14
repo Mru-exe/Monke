@@ -8,6 +8,7 @@ import java.util.Map;
 
 /**
  * JavaFX bridge: glues Scene key events to the core InputHandler.
+ * Includes key-commands bindings.
  */
 public class JavaFXInputAdapter {
     private final Map<KeyCode,Command> bindings = Map.ofEntries(
@@ -20,6 +21,13 @@ public class JavaFXInputAdapter {
             Map.entry(KeyCode.ESCAPE, Command.TOGGLE_PAUSE)
     );
 
+    /**
+     * Constructor for JavaFXInputAdapter.
+     * Sets up key event handlers for the given scene.
+     *
+     * @param scene The JavaFX Scene to attach input handlers to.
+     * @param core  The InputHandler instance to handle input commands.
+     */
     public JavaFXInputAdapter(Scene scene, InputHandler core) {
         scene.setOnKeyPressed(e -> {
             Command cmd = bindings.get(e.getCode());

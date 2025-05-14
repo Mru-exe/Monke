@@ -8,6 +8,11 @@ public interface Collidable {
 
     BoundingBox getBounds();
 
+    /**
+     * Updates the position of the collidable object.
+     * @param x X coord
+     * @param y Y coord
+     */
     default void updateBounds(double x, double y) {
         BoundingBox bounds = this.getBounds();
         if(bounds != null) {
@@ -16,6 +21,12 @@ public interface Collidable {
         }
     }
 
+    /**
+     * Checks if two collidable objects are overlapping.
+     * @param c1 First collidable object
+     * @param c2 Second collidable object
+     * @return true if they are overlapping, false otherwise
+     */
     static boolean areOverlapping(Collidable c1, Collidable c2) {
         BoundingBox b1 = c1.getBounds();
         BoundingBox b2 = c2.getBounds();
@@ -27,10 +38,23 @@ public interface Collidable {
         return dx < halfWidth && dy < halfHeight;
     }
 
+    /**
+     * Checks if this collidable object overlaps with another collidable object.
+     * @param other The other collidable object
+     * @return true if they are overlapping, false otherwise
+     * @see #areOverlapping(Collidable, Collidable)
+     */
     default boolean overlaps(Collidable other) {
         return areOverlapping(this, other);
     }
 
+    /**
+     * Calculates the collision resolution for this collidable object with another collidable object.
+     * This method determines the direction of the collision and delegates resolution accordingly.
+     * @param c The other collidable object
+     * @see #resolveHorizontalCollision(double, double)
+     * @see #resolveVerticalCollision(double, double)
+     */
     default void resolveCollision(Collidable c) {
         BoundingBox self = this.getBounds();
         BoundingBox other = c.getBounds();
@@ -49,16 +73,48 @@ public interface Collidable {
         }
     }
 
+    /**
+     * Computes the delta between two positions and sizes.
+     * @param pos1
+     * @param size1
+     * @param pos2
+     * @param size2
+     * @return The delta value
+     */
     private double computeDelta(double pos1, double size1, double pos2, double size2) {
         return (pos1 + size1 * 0.5) - (pos2 + size2 * 0.5);
     }
 
+    /**
+     * Computes the overlap between two sizes and a delta value.
+     * @param size1
+     * @param size2
+     * @param delta
+     * @return The overlap value
+     */
     private double computeOverlap(double size1, double size2, double delta) {
         return (size1 + size2) * 0.5 - Math.abs(delta);
     }
 
+    /**
+     * Resolves the horizontal collision by adjusting the position of the collidable object.
+     * @param dx The delta value in the x direction
+     * @param overlapX The overlap value in the x direction
+     */
     default void resolveHorizontalCollision(double dx, double overlapX){}
+
+    /**
+     * Resolves the vertical collision by adjusting the position of the collidable object.
+     * @param dy The delta value in the y direction
+     * @param overlapY The overlap value in the y direction
+     */
     default void resolveVerticalCollision(double dy, double overlapY){}
+
+    /**
+     * Custom collision handling method. Called always before the rest of collision resolution.
+     * @param other The other collidable object
+     * @see #resolveCollision(Collidable)
+     */
     default void onCollisionCustom(Collidable other) {
         // Custom collision logic can be implemented in subclasses
     }

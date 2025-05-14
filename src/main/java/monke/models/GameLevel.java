@@ -28,7 +28,14 @@ public class GameLevel {
     private CopyOnWriteArraySet<Platform> platforms;
     private Goal goal;
 
-    //Parameterless constructor to enforce setters
+    /**
+     * Parameterless constructor for GameLevel to enforce the use of setters.
+     * @see monke.models.GameLevel#setPlayer(Player)
+     * @see monke.models.GameLevel#setMonkey(Monkey)
+     * @see monke.models.GameLevel#setPlatforms(CopyOnWriteArraySet)
+     * @see monke.models.GameLevel#setGoalKeys(CopyOnWriteArraySet)
+     * @see monke.models.GameLevel#setGoal(Goal)
+     */
     public GameLevel() {
 //        barrels.add(new Barrel(900, 0));
     }
@@ -98,6 +105,10 @@ public class GameLevel {
         return goalKeys;
     }
 
+    /**
+     * Removes the specified GameObject from the level.
+     * @param go The GameObject to be removed.
+     */
     public void destroyObject(GameObject go) {
         this.getGameObjects().remove(go);
         if (go instanceof Updatable) {

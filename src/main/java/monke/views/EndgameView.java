@@ -7,9 +7,16 @@ import monke.controllers.EndgameController;
 
 import java.util.logging.Logger;
 
+/**
+ * This class is responsible for rendering the endgame screen.
+ */
 public class EndgameView extends BaseView {
     private static final Logger logger = Logger.getLogger(EndgameView.class.getName());
 
+    /**
+     * Constructor for EndgameView. Automatically loads CSS and FXML files.
+     * @param controller the controller for this view.
+     */
     public EndgameView(EndgameController controller) {
         super();
 
@@ -21,6 +28,10 @@ public class EndgameView extends BaseView {
         this.setRoot(root);
     }
 
+    /**
+     * Sets the message on the main label.
+     * @param text
+     */
     public void setLabelMessage(String text) {
         Label label = (Label) this.getRoot().lookup("#messageLabe");
         if (label != null) {
@@ -30,6 +41,10 @@ public class EndgameView extends BaseView {
         }
     }
 
+    /**
+     * Hides a node by its fx:id.
+     * @param id
+     */
     public void hideNodeById(String id){
         Node node = this.getRoot().lookup("#" + id);
         if (node == null) {
@@ -39,6 +54,10 @@ public class EndgameView extends BaseView {
         node.setVisible(false);
     }
 
+    /**
+     * Shows a node by its fx:id.
+     * @param id
+     */
     public void showNodeById(String id){
         Node node = this.getRoot().lookup("#" + id);
         if (node == null) {

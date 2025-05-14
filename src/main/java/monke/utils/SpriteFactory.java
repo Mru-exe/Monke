@@ -64,7 +64,6 @@ public class SpriteFactory {
     /**
      * Creates a Sprite entity from a model object, using JavaFX group class;
      * @param go model (GameObject instance)
-     * @return Sprite object
      */
     public void applySpriteToModel(GameObject go) {
         logger.finer("Creating sprite from model: " + go.toString());
@@ -115,7 +114,7 @@ public class SpriteFactory {
                     debugElements.add(coords);
                 }
             } catch (Exception e){
-                e.printStackTrace();
+                logger.warning("Error applying debug mode to sprite " + go);
             }
             root.getChildren().addAll(debugElements);
         }

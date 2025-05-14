@@ -1,5 +1,8 @@
 package monke.enums;
 
+/**
+ * Enum representing various commands for game controls.
+ */
 public enum Command {
     UNBOUND,
     //PLAYER

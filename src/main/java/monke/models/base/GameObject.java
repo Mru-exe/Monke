@@ -34,6 +34,9 @@ public abstract class GameObject {
         this.y = y;
     }
 
+    /**
+     * @return String in format `ClassName`#`SerialNumber`
+     */
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + "#" + this.id;

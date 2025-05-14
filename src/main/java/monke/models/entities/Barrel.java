@@ -9,11 +9,17 @@ import monke.utils.EventBus;
 
 /**
  * Represents a barrel in the game.
- * The barrel can roll and explode.
  */
 public class Barrel extends GameEntity {
     private double speed;
 
+    /**
+     * Constructs a Barrel instance with specified coordinates and speed.
+     *
+     * @param x X coord
+     * @param y Y coord
+     * @param speed The speed of the barrel.
+     */
     public Barrel(int x, int y, double speed) {
         super(x, y, new BoundingBox(x, y, 48, 48));
         this.speed = speed;

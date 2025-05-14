@@ -9,9 +9,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Logger;
 
 /**
- * Represents a monkey in the game.
- * Basically just origin coords for barrel spawns.
- * TODO
+ * Represents a monkey in the game. Therefore, coordinates of the sprite and origin coords for barrel spawns.
  */
 public class Monkey extends GameEntity{
     private static final Logger logger = Logger.getLogger(Monkey.class.getName());
@@ -25,6 +23,13 @@ public class Monkey extends GameEntity{
     private final double cooldown;
     private int specialCounter = 3;
 
+    /**
+     * Constructs a Monkey instance with specified coordinates and barrel set.
+     * @param x X coord
+     * @param y Y coord
+     * @param barrelSet Set of barrels to be updated when spawning a new barrel.
+     * @param cooldown Cooldown time between barrel spawns.
+     */
     public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet, double cooldown) {
         super(x, y, new BoundingBox(x, y, 64, 64));
         this.cooldown = cooldown;
@@ -33,6 +38,10 @@ public class Monkey extends GameEntity{
         this.barrels = barrelSet;
     }
 
+    /**
+     * Spawns a barrel at the monkey's current coordinates.
+     * Every third barrel is 2,5x faster by default.
+     */
     private void spawnBarrel() {
         specialCounter--;
         Barrel barrel = new Barrel((int) x, (int) y, direction*7);

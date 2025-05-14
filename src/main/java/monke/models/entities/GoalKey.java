@@ -6,10 +6,15 @@ import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
 /**
- * Represents an item (powerup) in the game.
+ * Represents a key (item) in the game.
  */
 public class GoalKey extends GameEntity {
 
+    /**
+     * Constructs a GoalKey instance with specified coordinates.
+     * @param x X coord
+     * @param y Y coord
+     */
     public GoalKey(int x, int y ) {
         super(x, y, new BoundingBox(x, y, 22, 22));
         this.img = SpriteImage.KEY;

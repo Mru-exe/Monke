@@ -15,6 +15,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.logging.Logger;
 
+/**
+ * Base class for all views in the application.
+ */
 public abstract class BaseView extends Scene {
     private static final Logger logger = Logger.getLogger(BaseView.class.getName());
 
@@ -22,10 +25,19 @@ public abstract class BaseView extends Scene {
         super(new BorderPane(), 1520, 855);
     }
 
+    /**
+     * @return the root element cast as a Pane.
+     */
     protected Pane getBasePane() {
         return ((Pane) this.getRoot());
     }
 
+    /**
+     * Loads an FXML file and sets the controller.
+     * @param fileName the name of the FXML file to load.
+     * @param controller the controller to set for the FXML file.
+     * @return the loaded Parent object.
+     */
     protected Parent loadFXML(String fileName, Object controller) {
         logger.finer("Loading FXML file: " + fileName);
         URL fxmlURL = getClass().getResource(fileName);
@@ -43,6 +55,10 @@ public abstract class BaseView extends Scene {
         return new StackPane();
     }
 
+    /**
+     * Loads a font from the 'resources' folder.
+     * @param fileName the name of the font file to load.
+     */
     protected void loadFont(String fileName){
         logger.finer("Loading font: " + fileName);
         try (InputStream fontStream = getClass().getResourceAsStream("/" + fileName)) {
@@ -56,6 +72,11 @@ public abstract class BaseView extends Scene {
         }
     }
 
+    /**
+     * Loads a resource from the 'resources' folder.
+     * @param s the path to the resource to load.
+     * @return the InputStream of the resource.
+     */
     protected InputStream getResourceStream(String s){
         try {
             return getClass().getResourceAsStream(s);

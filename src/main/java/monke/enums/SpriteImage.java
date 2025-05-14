@@ -1,5 +1,8 @@
 package monke.enums;
 
+/**
+ * Enum representing image paths and dimensions for various sprites used in the game.
+ */
 public enum SpriteImage {
     NOTEXTURE("/sprites/notexture.png", 16, 16),
     MONKEY("/sprites/monkey.png", 64, 64),

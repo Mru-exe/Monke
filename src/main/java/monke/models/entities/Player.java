@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 /**
  * Represents a player in the game.
+ * Player has an inventory of keys and can pick them up.
  */
 public class Player extends GameEntity{
     private static final Logger logger = Logger.getLogger(Player.class.getName());
@@ -20,10 +21,17 @@ public class Player extends GameEntity{
         this.img = SpriteImage.PLAYER;
     }
 
+    /**
+     * @return Amount of keys in the player's inventory.
+     */
     public int getKeyAmount() {
         return this.inventory.size();
     }
 
+    /**
+     * Adds a key to the player's inventory.
+     * @param goalKey The key to be added.
+     */
     public void pickupKey(GoalKey goalKey) {
         this.inventory.add(goalKey);
         logger.info("Player picked up item: " + goalKey.toString());

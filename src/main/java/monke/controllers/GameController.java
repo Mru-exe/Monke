@@ -99,12 +99,12 @@ public class GameController {
      * @see monke.utils.InputHandler
      */
     protected void resolveControls() {
-        if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().applyForceX(-GameLevel.moveSpeed -level.getPlayer().getDamping());
-        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(GameLevel.moveSpeed +level.getPlayer().getDamping());
-        if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(0);
+        if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().setVelX(-GameLevel.moveSpeed -level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().setVelX(GameLevel.moveSpeed +level.getPlayer().getDamping());
+        if(inputHandler.isPressed(Command.PLAYER_LEFT) && inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().setVelX(0);
         if(inputHandler.isPressed(Command.PLAYER_JUMP)) {
             if(Math.abs(level.getPlayer().getVelY()) <= 0) {
-                level.getPlayer().applyForceY(-GameLevel.jumpStrength *GameEntity.gravityStrength);
+                level.getPlayer().setVelY(-GameLevel.jumpStrength *GameEntity.gravityStrength);
             }
         }
     }

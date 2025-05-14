@@ -40,6 +40,10 @@ public class BoundingBox {
         this.height = height;
     }
 
+    /**
+     * Returns a string representation of the bounding box.
+     * @return String in format `{x, y, width, height}`.
+     */
     @Override
     public String toString() {
         return "{" +

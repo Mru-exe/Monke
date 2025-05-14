@@ -18,17 +18,21 @@ public class EventBus {
 
     private EventBus() {}
 
-
     /**
      * Subscribes a listener to a specific event.
-     * @param event - The event to subscribe to.
-     * @param listener - The function to be called when the event is published.
+     * @param event The event to subscribe to.
+     * @param listener The function to be called when the event is published.
      */
     public static void subscribe(GameEvent event, Runnable listener) {
         logger.finest(listener + " Subscribing to event: " + event);
         eventListeners.computeIfAbsent(event, e -> new ArrayList<>()).add(listener);
     }
 
+    /**
+     * Unsubscribes a listener from a specific event.
+     * @param listener The function to be removed from the listener list.
+     * @param event The event to unsubscribe from.
+     */
     public static void unsubscribe(GameEvent event, Runnable listener) {
         List<Runnable> listeners = eventListeners.get(event);
         if (listeners != null) {
@@ -38,7 +42,7 @@ public class EventBus {
 
     /**
      * Publishes an event to all subscribed listeners.
-     * @param event - The event to publish.
+     * @param event The event to publish.
      */
     public static synchronized void publish(GameEvent event) {
         logger.finer("Publishing event: " + event);

@@ -9,6 +9,9 @@ import monke.models.base.GameObject;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * GameView class is responsible for rendering the main game screen.
+ */
 public class GameView extends BaseView {
     private static final Logger logger = Logger.getLogger(GameView.class.getName());
 
@@ -19,6 +22,10 @@ public class GameView extends BaseView {
 
     private AnimationTimer renderingThread;
 
+    /**
+     * Constructor for GameView. Automatically loads CSS and FXML files.
+     * @param controller the controller for this view.
+     */
     public GameView(GameController controller) {
         super();
         logger.finer("GameView initialized");
@@ -65,6 +72,11 @@ public class GameView extends BaseView {
         };
     }
 
+    /**
+     * Checks if the sprite is outside the screen bounds and removes it if so.
+     * Additionally, removes all sprites in the destroy queue.
+     * @param go GameObject to check.
+     */
     private void checkForCleanup(GameObject go){
         Node sprite = go.getFxSprite();
         double absX = Math.abs(sprite.getTranslateX());
@@ -86,6 +98,10 @@ public class GameView extends BaseView {
         }
     }
 
+    /**
+     * Adds a sprite to the destroy queue.
+     * @param go
+     */
     public void removeSprite(GameObject go){
         this.destroyQueue.add(go);
     }

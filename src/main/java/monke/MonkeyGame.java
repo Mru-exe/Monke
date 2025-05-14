@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.util.logging.*;
 
 /**
- * Main class for the Monkey Game.
+ * Entry point class that runs the MonkeyGame application. It manages the primary game stage, scene transitions, and shutdown.
+ * <p>
+ * This class makes use of an {@link EventBus} to run its main methods based on events.
  */
 public class MonkeyGame extends Application {
     private static final Logger logger = Logger.getLogger(MonkeyGame.class.getName());
@@ -26,6 +28,9 @@ public class MonkeyGame extends Application {
     private Stage primaryStage;
     private static String selectedLevelFile;
 
+    /**
+     * Constructor for the MonkeyGame class. Initializes the logger and subscribes to game events.
+     */
     public MonkeyGame(){
         try {
             InputStream stream = MonkeyGame.class.getClassLoader().getResourceAsStream("logging.properties");
@@ -42,6 +47,11 @@ public class MonkeyGame extends Application {
         EventBus.subscribe(GameEvent.WIN, () -> this.endGame(EndgameController.EndgameType.WIN));
     }
 
+    /**
+     * Main method to launch the JavaFX application.
+     *
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         logger.info("Starting the Game...");
         launch(args);
@@ -66,15 +76,17 @@ public class MonkeyGame extends Application {
         });
     }
 
-    private String getSelectedLevelFile() {
-        return "Default";
-    }
-
+    /**
+     * Opens the main menu scene.
+     */
     private void openMenu(){
         MainMenuController controller = new MainMenuController();
         this.primaryStage.setScene(controller.getView());
     }
 
+    /**
+     * Starts the game by loading a level and setting the game controller.
+     */
     private void startGame(){
         GameLevel level = LevelLoader.loadLevel("default-level.json");
         GameController controller = new GameController(level);
@@ -83,6 +95,10 @@ public class MonkeyGame extends Application {
         });
     }
 
+    /**
+     * Ends the game and displays the endgame screen.
+     * @param type the type of endgame (WIN or LOSE)
+     */
     private void endGame(EndgameController.EndgameType type){
         EndgameController controller = new EndgameController(type);
         Platform.runLater(() -> {

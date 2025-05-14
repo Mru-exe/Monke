@@ -5,14 +5,19 @@ import monke.models.base.GameObject;
 import monke.models.common.BoundingBox;
 import monke.models.common.Collidable;
 
-//TODO
-
 /**
  * Represents a platform in the game.
  */
 public class Platform extends GameObject implements Collidable {
     private final BoundingBox boundary;
 
+    /**
+     * Constructs a Platform instance with specified coordinates and dimensions.
+     * @param x X coord
+     * @param y Y coord
+     * @param width width
+     * @param height height
+     */
     public Platform(int x, int y, int width, int height) {
         super(x, y);
         this.boundary = new BoundingBox(x, y, width, height);
