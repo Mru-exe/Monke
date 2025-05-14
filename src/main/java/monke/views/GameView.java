@@ -15,7 +15,7 @@ public class GameView extends BaseView {
     private final GameController gameController;
 
     private final Set<Group> allSprites = new HashSet<>();
-    private Queue<GameObject> destroyQueue = new LinkedList<>();
+    private final Queue<GameObject> destroyQueue = new LinkedList<>();
 
     private AnimationTimer renderingThread;
 
@@ -48,13 +48,13 @@ public class GameView extends BaseView {
             public void handle(long l) {
                 for (GameObject go : gameController.getLevel().getGameObjects()) {
                     if(!allSprites.contains(go.getFxSprite())) {
-                        logger.finer("New sprite: " + go.toString());
+                        logger.finer("New sprite: " + go);
                         allSprites.add(go.getFxSprite());
                         getBasePane().getChildren().add(go.getFxSprite());
                     }
                     Group fxSprite = go.getFxSprite();
                     if(fxSprite == null) {
-                        logger.warning("Sprite is null: " + go.toString());
+                        logger.warning("Sprite is null: " + go);
                         continue;
                     }
                     fxSprite.setTranslateX(go.getX());
@@ -73,7 +73,7 @@ public class GameView extends BaseView {
         if(absX > 1.5*this.getWidth() || absY > 1.5*this.getHeight() || absX < 0 || absY < 0){
             this.getBasePane().getChildren().remove(sprite);
             gameController.getLevel().destroyObject(go);
-            logger.fine("Killed sprite: " + go.toString());
+            logger.fine("Killed sprite: " + go);
         }
         //remove all sprites in destroy queue
         while(!destroyQueue.isEmpty()){
@@ -81,7 +81,7 @@ public class GameView extends BaseView {
             if(goToDestroy.getFxSprite() != null) {
                 allSprites.remove(goToDestroy.getFxSprite());
                 this.getBasePane().getChildren().remove(goToDestroy.getFxSprite());
-                logger.fine("Removed sprite: " + goToDestroy.toString());
+                logger.fine("Removed sprite: " + goToDestroy);
             }
         }
     }
