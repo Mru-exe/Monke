@@ -15,12 +15,20 @@ import monke.views.GameView;
 
 import java.util.logging.Logger;
 
+/**
+ * Controller class for GameView.
+ * @see GameView
+ */
 public class GameController {
     private static final Logger logger = Logger.getLogger(GameController.class.getName());
     private final SpriteFactory sf = new SpriteFactory(false);
 
     protected final InputHandler inputHandler = new InputHandler();
 
+    /**
+     * Logic thread for background processing. (Physics, collisions, etc.)
+     * @see monke.utils.GameLoop
+     */
     private final GameLoop logicThread = new GameLoop(){
         @Override
         protected void process(double dt) {
@@ -42,6 +50,13 @@ public class GameController {
     private final GameLevel level;
     private final GameView view;
 
+    /**
+     * Constructs a GameController instance, initializing the game logic, rendering,
+     * and input handling components.
+     *
+     * @param level instance of GameLevel representing the current game level.
+     * @see GameLevel
+     */
     public GameController(GameLevel level) {
         this.view = new GameView(this);
         logger.finer("GameController initialized");
@@ -79,6 +94,10 @@ public class GameController {
         view.startRenderingThread();
     }
 
+    /**
+     * Processes input commands and applies them to the game.
+     * @see monke.utils.InputHandler
+     */
     protected void resolveControls() {
         if(inputHandler.isPressed(Command.PLAYER_LEFT)) level.getPlayer().applyForceX(-GameLevel.moveSpeed -level.getPlayer().getDamping());
         if(inputHandler.isPressed(Command.PLAYER_RIGHT)) level.getPlayer().applyForceX(GameLevel.moveSpeed +level.getPlayer().getDamping());
@@ -90,6 +109,9 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks for collision between relevant game objects
+     */
     private void checkCollisions(){
         //Surface collisions
         for (Collidable c : level.getCollidable()) {

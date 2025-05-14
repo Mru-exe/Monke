@@ -6,7 +6,9 @@ import monke.utils.EventBus;
 import monke.views.BaseView;
 import monke.views.MainMenu;
 
-
+/**
+ * Controller class for MainMenu.
+ */
 public class MainMenuController {
     MainMenu view;
 
@@ -18,11 +20,17 @@ public class MainMenuController {
         return this.view;
     }
 
+    /**
+     * Shuts down the application.
+     */
     @FXML
     public void exitGame(){
         EventBus.publish(GameEvent.EXIT_GAME);
     }
 
+    /**
+     * Starts the game.
+     */
     @FXML
     public void startGame(){
         EventBus.publish(GameEvent.START_GAME);
