@@ -17,7 +17,7 @@ public class EndgameController {
         this.view = new EndgameView(this);
         switch (type){
             case WIN -> {
-                view.setLabelMessage("YOU WIN!"); // TODO nefunguje
+                view.setLabelMessage("YOU WIN!");
                 view.hideNodeById("restart");
             }
             case LOSE -> {
