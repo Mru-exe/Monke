@@ -33,16 +33,16 @@ public class Player extends GameEntity{
     public void resolveHorizontalCollision(double dx, double overlapX) {
         double shiftX = dx > 0 ? overlapX : -overlapX;
         this.setCoords(this.getX() + shiftX, this.getY());
-        this.applyForceX(0);
+        this.setVelX(0);
     }
 
     @Override
     public void resolveVerticalCollision(double dy, double overlapY) {
         if(dy > 0){
-            this.applyForceY(gravityStrength);
+            this.setVelY(gravityStrength);
         } else {
             this.setCoords(this.getX(), this.getY() - overlapY);
-            this.applyForceY(0);
+            this.setVelY(0);
         }
     }
 }

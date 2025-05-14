@@ -40,14 +40,14 @@ public class Barrel extends GameEntity {
     public void resolveVerticalCollision(double dy, double overlapY) {
         if(this.getVelY() >= gravityStrength){
             if(Math.random() > 0.35 && this.getVelX() != 0) this.setSpeed(-speed);
-            this.applyForceX(speed);
+            this.setVelX(speed);
         }
         //check if this is the initial collision (first call)
         if(dy > 0){
-            this.applyForceY(gravityStrength);
+            this.setVelY(gravityStrength);
         } else {
             this.setCoords(this.getX(), this.getY() - overlapY);
-            this.applyForceY(0);
+            this.setVelY(0);
         }
     }
 }
