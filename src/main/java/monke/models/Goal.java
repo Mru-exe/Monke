@@ -13,7 +13,7 @@ import monke.utils.EventBus;
  * A simple trigger zone that the player can collide with to win the game.
  */
 public class Goal extends GameObject implements Collidable {
-    private BoundingBox boundary;
+    private final BoundingBox boundary;
 
     private final int locks;
 
