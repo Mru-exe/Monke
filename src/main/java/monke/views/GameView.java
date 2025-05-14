@@ -24,7 +24,7 @@ public class GameView extends BaseView {
         logger.finer("GameView initialized");
 
         this.gameController = controller;
-        this.getRoot().setStyle("-fx-background-color: #3f3f3f;");
+        this.getRoot().setStyle("-fx-background-image: url('/background.png');");
     }
 
     /**
