@@ -35,9 +35,4 @@ public class MainMenuController {
     public void startGame(){
         EventBus.publish(GameEvent.START_GAME);
     }
-
-    @FXML
-    public void selectLevel(){
-
-    }
 }
