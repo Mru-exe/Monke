@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.logging.Logger;
 
 /**
  * LevelLoader is responsible for loading levels from JSON files.
@@ -23,27 +24,30 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class LevelLoader {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static final Logger logger = Logger.getLogger(LevelLoader.class.getName());
 
     /**
-     * Loads a level from a external file.
-     * @param levelFilePath
+     * Loads a level from an external file.
+     * @param levelFilePath - Path to the level file
      * @return Level object of the level
      */
-    public static GameLevel loadLevel(String levelFilePath) {
+    public static GameLevel loadLevel(String levelFilePath) throws NullPointerException {
         String json;
         try(InputStream stream = MonkeyGame.class.getClassLoader().getResourceAsStream(levelFilePath)) {
             json = new String(stream.readAllBytes());
         } catch (Exception e){
-            e.printStackTrace();
+            logger.severe(e.getMessage());
             return null;
         }
-        if(json != null) {
-            JsonLevel level = gson.fromJson(json, JsonLevel.class);
-            return convertToPlayable(level);
-        }
-        return null;
+        JsonLevel level = gson.fromJson(json, JsonLevel.class);
+        return convertToPlayable(level);
     }
 
+    /**
+     * Converts the loaded JSON level to a GameLevel instance.
+     * @param level The deserialized JSON level
+     * @return GameLevel instance
+     */
     private static GameLevel convertToPlayable(JsonLevel level) {
         GameLevel l = new GameLevel();
 
@@ -75,10 +79,9 @@ public class LevelLoader {
         return l;
     }
 
-    public static String serializeLevel(GameLevel level) {
-        return gson.toJson(level);
-    }
-
+    /**
+     * Proprietary class for JSON deserialization.
+     */
     private static class JsonLevel {
         @SerializedName("player")
         public Position player;
