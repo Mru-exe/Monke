@@ -39,8 +39,7 @@ public class LevelLoader {
         }
         if(json != null) {
             JsonLevel level = gson.fromJson(json, JsonLevel.class);
-            GameLevel gameLevel = convertToPlayable(level);
-            return gameLevel;
+            return convertToPlayable(level);
         }
         return null;
     }
@@ -77,14 +76,10 @@ public class LevelLoader {
     }
 
     public static String serializeLevel(GameLevel level) {
-        String out = gson.toJson(level);
-        return out;
+        return gson.toJson(level);
     }
 
-    protected static class JsonLevel {
-        @SerializedName("level_name")
-        public String levelName;
-
+    private static class JsonLevel {
         @SerializedName("player")
         public Position player;
 
@@ -109,19 +104,19 @@ public class LevelLoader {
         @SerializedName("monkey_cooldown")
         public float monkeyCooldown = 1.5f;
 
-        private static class Position {
+        protected static class Position {
             public int x;
             public int y;
         }
 
-        private static class Platform {
+        protected static class Platform {
             public int x;
             public int y;
             public int width;
             public int height;
         }
 
-        private static class Goal {
+        protected static class Goal {
             public int x;
             public int y;
             public int width;
