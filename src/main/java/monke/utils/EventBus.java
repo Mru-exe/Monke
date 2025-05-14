@@ -1,12 +1,10 @@
 package monke.utils;
 
 import monke.enums.GameEvent;
-import monke.enums.GameState;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -16,7 +14,6 @@ import java.util.logging.Logger;
 public class EventBus {
     private static final Logger logger = Logger.getLogger(EventBus.class.getName());
 
-     //HashMap to store event listeners - concurrent makes it thread-safe.
     private static final ConcurrentHashMap<GameEvent, List<Runnable>> eventListeners = new ConcurrentHashMap<>();
 
     private EventBus() {}
