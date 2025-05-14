@@ -118,6 +118,7 @@ public class GameController {
             for (Collidable other : (level.getPlatforms())) {
                 if(c == null || other == null) continue;
                 if (c.hashCode() != other.hashCode() && c.overlaps(other)) {
+                    logger.finest("Collision detected: " + c + " with " + other);
                     c.resolveCollision(other);
                 }
             }
@@ -125,7 +126,7 @@ public class GameController {
         //Key collisions
         for(GoalKey key : level.getItems()){
             if(level.getPlayer().overlaps(key)){
-                logger.info("Player collided with item");
+                logger.fine("Player collided with item");
                 level.getPlayer().pickupKey(key);
                 view.removeSprite(key);
                 level.destroyObject(key);
@@ -134,6 +135,7 @@ public class GameController {
         //Player/Barrel collisions
         for(Barrel barrel : level.getBarrels()){
             if(level.getPlayer().overlaps(barrel)){
+                logger.fine("Player collided with barrel");
                 EventBus.publish(GameEvent.DIE);
             }
         }
