@@ -2,7 +2,7 @@
 
 ### Project Overview
 
-MonkeFoolery is a 2D platformer game inspired by the original 1981 Donkey Kong. Built with Java & OpenGL using Maven.
+MonkeFoolery is a 2D platformer game inspired by the original 1981 Donkey Kong. Built with Java & JavaFX.
 
 ---
 
