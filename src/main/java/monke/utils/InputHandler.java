@@ -33,8 +33,4 @@ public class InputHandler {
     public synchronized boolean isPressed(Command cmd) {
         return pressed.contains(cmd);
     }
-
-    public synchronized boolean isJustPressed(Command cmd) {
-        return pressed.contains(cmd) && !previous.contains(cmd);
-    }
 }

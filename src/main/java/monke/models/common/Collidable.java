@@ -15,13 +15,6 @@ public interface Collidable {
             bounds.setY(y);
         }
     }
-    default void updateBounds(int x, int y, int width, int height) {
-        BoundingBox bounds = this.getBounds();
-        bounds.setX(x);
-        bounds.setY(y);
-        bounds.setWidth(width);
-        bounds.setHeight(height);
-    }
 
     static boolean areOverlapping(Collidable c1, Collidable c2) {
         BoundingBox b1 = c1.getBounds();

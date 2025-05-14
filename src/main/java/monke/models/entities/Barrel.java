@@ -21,14 +21,6 @@ public class Barrel extends GameEntity {
         this.setDamping(1.02f);
     }
 
-    public void roll() {
-        // Logic to roll the barrel
-    }
-
-    public void explode() {
-        // Logic to explode the barrel
-    }
-
     public double getSpeed() {
         return speed;
     }

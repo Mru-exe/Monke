@@ -56,10 +56,6 @@ public class Monkey extends GameEntity{
     }
 
     @Override
-    public void resolveHorizontalCollision(double dx, double overlapX) {
-    }
-
-    @Override
     public void resolveVerticalCollision(double dy, double overlapY) {
         if(dy > 0){
             this.applyForceY(gravityStrength);

@@ -54,9 +54,6 @@ public class GameLevel {
     public Player getPlayer() {
         return player;
     }
-    public Monkey getMonkey() {
-        return monkey;
-    }
     public Goal getGoal() {
         return goal;
     }
