@@ -27,6 +27,7 @@ public abstract class GameLoop implements Runnable {
      * Starts the game loop in a separate thread
      */
     public void start() {
+        logger.finer("STARTING " + this);
         if (!isRunning) {
             isRunning = true;
             Thread currentThread = new Thread(this);

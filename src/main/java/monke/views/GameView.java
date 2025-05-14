@@ -100,7 +100,7 @@ public class GameView extends BaseView {
 
     /**
      * Adds a sprite to the destroy queue.
-     * @param go
+     * @param go GameObject to be removed.
      */
     public void removeSprite(GameObject go){
         this.destroyQueue.add(go);

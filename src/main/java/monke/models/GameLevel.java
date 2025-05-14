@@ -8,12 +8,13 @@ import monke.models.entities.*;
 import monke.utils.EventBus;
 
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.logging.Logger;
 
 /**
  * GameLevel represents a collection of entities and static objects in the level.
  */
 public class GameLevel {
-
+    private static final Logger logger = Logger.getLogger(GameLevel.class.getName());
     //Config
     public static float jumpStrength;
     public static float moveSpeed;
@@ -129,5 +130,6 @@ public class GameLevel {
         if (go instanceof Player) {
             EventBus.publish(GameEvent.DIE);
         }
+        logger.finest("Removed object: " + go);
     }
 }

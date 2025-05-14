@@ -30,7 +30,7 @@ public class EndgameView extends BaseView {
 
     /**
      * Sets the message on the main label.
-     * @param text
+     * @param text the text to set on the label.
      */
     public void setLabelMessage(String text) {
         Label label = (Label) this.getRoot().lookup("#messageLabe");
@@ -43,7 +43,7 @@ public class EndgameView extends BaseView {
 
     /**
      * Hides a node by its fx:id.
-     * @param id
+     * @param id the fx:id of the node to hide.
      */
     public void hideNodeById(String id){
         Node node = this.getRoot().lookup("#" + id);
@@ -56,7 +56,7 @@ public class EndgameView extends BaseView {
 
     /**
      * Shows a node by its fx:id.
-     * @param id
+     * @param id fx:id of the node to show.
      */
     public void showNodeById(String id){
         Node node = this.getRoot().lookup("#" + id);
