@@ -24,7 +24,7 @@ public class EndgameView extends BaseView {
     }
 
     public void setLabelMessage(String text) {
-        Label label = (Label) this.getRoot().lookup("#labelId");
+        Label label = (Label) this.getRoot().lookup("#messageLabel");
         if (label != null) {
             label.setText(text);
         } else {
