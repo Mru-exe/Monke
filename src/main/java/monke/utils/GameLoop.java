@@ -60,13 +60,6 @@ public abstract class GameLoop implements Runnable {
      */
     public void stop() {
         isRunning = false;
-//        if (currentThread != null) {
-//            try {
-//                currentThread.join();
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//            }
-//        }
     }
 
     /**
@@ -88,7 +81,7 @@ public abstract class GameLoop implements Runnable {
                     process(dt);
                     lastTime += TARGET_TIME;
                 } else {
-                    currentThread.sleep(1); //
+                    Thread.sleep(1); // Prevent cpu spinning
                 }
             } catch (InterruptedException e) {
                 isRunning = false;
