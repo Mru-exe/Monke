@@ -1,0 +1,115 @@
+{
+  "level_name": "Default level",
+  "jump_strength": 5.1,
+  "move_speed": 16,
+  "gravity_strength": 9.3,
+  "monkey_cooldown": 35,
+  "player": {
+    "x": 32,
+    "y": 800
+  },
+  "monkey": {
+    "x": 74,
+    "y": 10
+  },
+  "keys": [
+    {
+      "x": 154,
+      "y": 174
+    },
+    {
+      "x": 200,
+      "y": 620
+    },
+    {
+      "x": 900,
+      "y": 540
+    }
+  ],
+  "platforms": [
+    {
+      "x": 0,
+      "y": 84,
+      "width": 412,
+      "height": 24
+    },
+    {
+      "x": 72,
+      "y": 200,
+      "width": 230,
+      "height": 24
+    },
+    {
+      "x": 386,
+      "y": 201,
+      "width": 544,
+      "height": 24
+    },
+    {
+      "x": 850,
+      "y": 290,
+      "width": 200,
+      "height": 24
+    },
+    {
+      "x": 1200,
+      "y": 290,
+      "width": 350,
+      "height": 24
+    },
+    {
+      "x": 950,
+      "y": 380,
+      "width": 200,
+      "height": 24
+    },
+    {
+      "x": 155,
+      "y": 470,
+      "width": 1170,
+      "height": 24
+    },
+    {
+      "x": 32,
+      "y": 560,
+      "width": 218,
+      "height": 24
+    },
+    {
+      "x": 896,
+      "y": 570,
+      "width": 586,
+      "height": 24
+    },
+    {
+      "x": 159,
+      "y": 650,
+      "width": 288,
+      "height": 24
+    },
+    {
+      "x": 520,
+      "y": 740,
+      "width": 360,
+      "height": 24
+    },
+    {
+      "x": 0,
+      "y": 830,
+      "width": 512,
+      "height": 24
+    },
+    {
+      "x": 1000,
+      "y": 830,
+      "width": 512,
+      "height": 24
+    }
+  ],
+  "goal": {
+    "x": 1400,
+    "y": 226,
+    "width": 64,
+    "height": 64
+  }
+}
