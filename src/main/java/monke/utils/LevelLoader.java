@@ -63,7 +63,7 @@ public class LevelLoader {
                 new Goal(level.goal.x, level.goal.y, level.goal.width, level.goal.height, level.keys.size())
         );
         l.setMonkey(
-                new Monkey(level.monkey.x, level.monkey.y, l.getBarrels(), level.monkeyCooldown)
+                new Monkey(level.monkey.x, level.monkey.y, level.monkeyCooldown)
         );
         l.setPlatforms(
                 new CopyOnWriteArraySet<>(Arrays.asList(level.platforms.stream()

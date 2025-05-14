@@ -22,7 +22,6 @@ public class GameLevel {
     //Entities
     private Player player;
     private Monkey monkey;
-    private final CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
     private CopyOnWriteArraySet<GoalKey> goalKeys = new CopyOnWriteArraySet<>();
 
     //Objects
@@ -71,7 +70,7 @@ public class GameLevel {
         CopyOnWriteArraySet<GameObject> gameObjects = new CopyOnWriteArraySet<>();
         gameObjects.add(player);
         gameObjects.add(monkey);
-        gameObjects.addAll(barrels);
+        gameObjects.addAll(this.getBarrels());
         gameObjects.addAll(platforms);
         gameObjects.addAll(goalKeys);
         gameObjects.add(goal);
@@ -96,7 +95,7 @@ public class GameLevel {
         return collidable;
     }
     public CopyOnWriteArraySet<Barrel> getBarrels() {
-        return barrels;
+        return monkey.getBarrels();
     }
     public CopyOnWriteArraySet<Platform> getPlatforms() {
         return platforms;

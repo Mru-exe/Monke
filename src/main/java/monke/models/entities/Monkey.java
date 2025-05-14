@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public class Monkey extends GameEntity{
     private static final Logger logger = Logger.getLogger(Monkey.class.getName());
-    private final CopyOnWriteArraySet<Barrel> barrels;
+    private final CopyOnWriteArraySet<Barrel> barrels = new CopyOnWriteArraySet<>();
 
     private final SpriteFactory sf = new SpriteFactory();
 
@@ -30,12 +30,11 @@ public class Monkey extends GameEntity{
      * @param barrelSet Set of barrels to be updated when spawning a new barrel.
      * @param cooldown Cooldown time between barrel spawns.
      */
-    public Monkey(double x, double y, CopyOnWriteArraySet<Barrel> barrelSet, double cooldown) {
+    public Monkey(double x, double y, double cooldown) {
         super(x, y, new BoundingBox(x, y, 64, 64));
         this.cooldown = cooldown;
         this.direction = x > 500 ? -1 : 1;
         this.img = SpriteImage.MONKEY;
-        this.barrels = barrelSet;
     }
 
     /**
@@ -72,5 +71,9 @@ public class Monkey extends GameEntity{
             this.setCoords(this.getX(), this.getY() - overlapY);
             this.setVelY(0);
         }
+    }
+
+    public CopyOnWriteArraySet<Barrel> getBarrels() {
+        return barrels;
     }
 }
