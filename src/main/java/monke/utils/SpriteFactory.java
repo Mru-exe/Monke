@@ -19,7 +19,6 @@ import monke.models.common.Collidable;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
@@ -28,11 +27,11 @@ import java.util.logging.Logger;
  * @implNote JavaFX exclusive.
  */
 public class SpriteFactory {
-    private static Logger logger = Logger.getLogger(SpriteFactory.class.getName());
+    private static final Logger logger = Logger.getLogger(SpriteFactory.class.getName());
 
     private final boolean showDebug;
 
-    private ConcurrentHashMap<SpriteImage, Image> imageCache = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<SpriteImage, Image> imageCache = new ConcurrentHashMap<>();
 
     /**
      * @param isTest - false by default. set to true if you want to render hitboxes.
@@ -97,7 +96,7 @@ public class SpriteFactory {
                     Text coords = new Text();
                     coords.textProperty().bind(Bindings.createStringBinding(
                             () -> String.format("%s\n[%.1f, %.1f]\nVel: [%.3f, %.3f]",
-                                    go.toString(),
+                                    go,
                                     root.getTranslateX(), root.getTranslateY(),
                                     entity.getVelX(), entity.getVelY()
                             ),
@@ -108,7 +107,7 @@ public class SpriteFactory {
                     Text coords = new Text();
                     coords.textProperty().bind(Bindings.createStringBinding(
                             () -> String.format("%s\n[%.1f, %.1f]",
-                                    go.toString(),
+                                    go,
                                     root.getTranslateX(), root.getTranslateY()
                             ),
                             root.translateXProperty(), root.translateYProperty()
