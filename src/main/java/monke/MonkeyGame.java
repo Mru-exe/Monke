@@ -26,12 +26,19 @@ public class MonkeyGame extends Application {
     private static final Logger logger = Logger.getLogger(MonkeyGame.class.getName());
 
     private Stage primaryStage;
-    private static String selectedLevelFile;
-
     /**
      * Constructor for the MonkeyGame class. Initializes the logger and subscribes to game events.
      */
     public MonkeyGame(){
+        EventBus.subscribe(GameEvent.EXIT_GAME, this::stop);
+        EventBus.subscribe(GameEvent.OPEN_MAIN_MENU, this::openMenu);
+        EventBus.subscribe(GameEvent.START_GAME, this::startGame);
+        EventBus.subscribe(GameEvent.DIE, () -> this.endGame(EndgameController.EndgameType.LOSE));
+        EventBus.subscribe(GameEvent.WIN, () -> this.endGame(EndgameController.EndgameType.WIN));
+        logger.info("EventBus connected");
+    }
+
+    private static void initLogger(){
         try {
             InputStream stream = MonkeyGame.class.getClassLoader().getResourceAsStream("logging.properties");
             LogManager.getLogManager().readConfiguration(stream);
@@ -39,12 +46,6 @@ public class MonkeyGame extends Application {
             logger.warning("Could not load logging.properties file");
         }
         logger.info("Logger initialized");
-
-        EventBus.subscribe(GameEvent.EXIT_GAME, this::stop);
-        EventBus.subscribe(GameEvent.OPEN_MAIN_MENU, this::openMenu);
-        EventBus.subscribe(GameEvent.START_GAME, this::startGame);
-        EventBus.subscribe(GameEvent.DIE, () -> this.endGame(EndgameController.EndgameType.LOSE));
-        EventBus.subscribe(GameEvent.WIN, () -> this.endGame(EndgameController.EndgameType.WIN));
     }
 
     /**
@@ -53,6 +54,12 @@ public class MonkeyGame extends Application {
      * @param args command line arguments
      */
     public static void main(String[] args) {
+        for(String a : args) System.out.println(a);
+        if(args.length > 0 && args[0].equals("debug")){
+            initLogger();
+        } else {
+            Logger.getLogger("").setLevel(Level.OFF);
+        }
         logger.info("Starting the Game...");
         launch(args);
     }
@@ -89,10 +96,12 @@ public class MonkeyGame extends Application {
      */
     private void startGame(){
         GameLevel level = LevelLoader.loadLevel("default-level.json");
+        if(level == null){
+            logger.severe("Failed to load level");
+            return;
+        }
         GameController controller = new GameController(level);
-        Platform.runLater(() -> {
-            this.primaryStage.setScene(controller.getView());
-        });
+        Platform.runLater(() -> this.primaryStage.setScene(controller.getView()));
     }
 
     /**
@@ -101,8 +110,6 @@ public class MonkeyGame extends Application {
      */
     private void endGame(EndgameController.EndgameType type){
         EndgameController controller = new EndgameController(type);
-        Platform.runLater(() -> {
-            this.primaryStage.setScene(controller.getView());
-        });
+        Platform.runLater(() -> this.primaryStage.setScene(controller.getView()));
     }
 }
