@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 public abstract class GameEntity extends GameObject implements Collidable, Updatable {
     private static final Logger logger = Logger.getLogger(GameEntity.class.getName());
 
-    private BoundingBox boundary;
+    private final BoundingBox boundary;
 
     private double velX = 0;
     private double velY = 0;
@@ -39,6 +39,7 @@ public abstract class GameEntity extends GameObject implements Collidable, Updat
         if(Math.abs(velX) <= damping){
             velX = 0;
         }
+        logger.finest("Updated " + this);
     }
 
     public double getVelY() {
